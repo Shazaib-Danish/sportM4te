@@ -24,10 +24,10 @@ class DataManager extends ChangeNotifier{
     return isDarkMode;
   }
 
- void usersSearchList(String token){
-    searchUsersList = UsersSearchApiManager().searchUsers(token);
-    notifyListeners();
- }
+ // void usersSearchList(String token){
+ //    searchUsersList = UsersSearchApiManager().searchUsers(token);
+ //    notifyListeners();
+ // }
 
  Future<Users> get getSearchUsersList{
     return searchUsersList;
