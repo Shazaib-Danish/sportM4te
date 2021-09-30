@@ -3,7 +3,7 @@ import 'package:sportm4te/API%20Manager/login_api_manager.dart';
 import 'package:sportm4te/API%20Manager/my_envents_api.dart';
 import 'package:sportm4te/Models/user_model.dart';
 import 'package:sportm4te/Models/user_my_events.dart';
-import 'package:sportm4te/Models/user_my_events_details.dart';
+import 'package:sportm4te/Models/user_events_details.dart';
 
 class MyEvents extends StatefulWidget {
   const MyEvents({Key? key}) : super(key: key);
