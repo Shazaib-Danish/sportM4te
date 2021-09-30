@@ -1,19 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sportm4te/API%20Manager/dashboard_with_user_agent.dart';
 import 'package:sportm4te/API%20Manager/login_api_manager.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
 import 'package:sportm4te/Widgets/reusable_material_button.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import 'package:top_snackbar_flutter/tap_bounce_container.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'dashboard.dart';
-import 'package:http/http.dart' as http;
 import 'forgot_password_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+  Login({Key? key}) : super(key: key);
+
+  String userEmail = '';
+  String userPassword = '';
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +58,9 @@ class Login extends StatelessWidget {
                       fontWeight: FontWeight.w900,
                     ),
                   ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
                   TextFormField(
                     style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
@@ -73,6 +78,9 @@ class Login extends StatelessWidget {
                           Icons.email,
                           color: Colors.white,
                         )),
+                    onChanged: (value){
+                      userEmail = value;
+                    },
                   ),
                   const SizedBox(
                     height: 15.0,
@@ -94,6 +102,9 @@ class Login extends StatelessWidget {
                           Icons.lock,
                           color: Colors.white,
                         )),
+                    onChanged: (value){
+                      userPassword = value;
+                    },
                     obscureText: true,
                   ),
                   const SizedBox(
@@ -101,37 +112,40 @@ class Login extends StatelessWidget {
                   ),
                   ReusableMaterialButton(
                     title: 'Login',
-                    onPressed: ()async {
-
-                       UserLoginApiManager()
-                          .login('caplarobko@gmail.com', 'mamsafajn', context).then((value) {
-                         final loginCheck =
-                             Provider.of<DataManager>(context, listen: false)
-                                 .isLoginDone;
-                         if (loginCheck != true) {
-                           showTopSnackBar(
-                             context,
-                             const CustomSnackBar.error(
-                               message:
-                               "Something went wrong. Please check your credentials and try again",
-                             ),
-                           );
-                         } else {
-                           showTopSnackBar(
-                             context,
-                             const CustomSnackBar.success(
-                               message:
-                               "Good job, your release is successful. Have a nice day",
-                             ),
-                           );
-                           Navigator.push(
-                               context,
-                               CupertinoPageRoute(
-                                 builder: (context) => const Dashboard(),
-                               ));
-                         }
-                       });
-
+                    onPressed: () async {
+                      SharedPreferences loginPreferences = await SharedPreferences.getInstance();
+                    await UserLoginApiManager()
+                          .login(userEmail, userPassword, context)
+                          .whenComplete(() {
+                        final loginCheck =
+                            Provider.of<DataManager>(context, listen: false)
+                                .isLoginDone;
+                        if (loginCheck  == 'Bad Password') {
+                          showTopSnackBar(
+                            context,
+                            const CustomSnackBar.error(
+                              message:
+                                  "Something went wrong. Please check your credentials and try again",
+                            ),
+                          );
+                        } else {
+                          showTopSnackBar(
+                            context,
+                            const CustomSnackBar.success(
+                              message: "You have loged in, Have a nice day",
+                            ),
+                          );
+                          final loginData = Provider.of<DataManager>(context, listen: false).userData;
+                          loginPreferences.setString('userToken', loginData.token);
+                          loginPreferences.setBool('isLogedIn', false);
+                          Provider.of<DataManager>(context, listen: false).setUserToken(loginData.token);
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => const Dashboard(isLogedIn: false,),
+                              ));
+                        }
+                      });
                     },
                   ),
                   Row(

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
 import 'package:sportm4te/UI/profile_screen.dart';
+import 'package:sportm4te/UI/users_search.dart';
 import 'package:sportm4te/Widgets/drawer_resuable_child.dart';
+import 'package:sportm4te/logout/logout.dart';
 
 class Draawer extends StatelessWidget {
   const Draawer({Key? key}) : super(key: key);
@@ -39,17 +41,20 @@ class Draawer extends StatelessWidget {
               iconData: CupertinoIcons.person_fill,
               color: const Color(0xFFF4654A),
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                        builder: (context) => ProfileScreen()));
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => ProfileScreen()));
               },
             ),
-            const DrawerReusableChild(
+            DrawerReusableChild(
               title: 'Search Users',
               iconData: CupertinoIcons.group_solid,
-              color: Color(0xFFA68BE7),
+              color: const Color(0xFFA68BE7),
+              onPressed: () {
+                Provider.of<DataManager>(context, listen: false).usersSearchList(
+                    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLnNwb3J0bTR0ZS5jb21cL3YxLjBcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjMyODU4MTM1LCJleHAiOjE2MzU0NTAxMzUsIm5iZiI6MTYzMjg1ODEzNSwianRpIjoicFJGbWd2eHZNZjBDQ0xkaCIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.g14Gm608vo3NWfIDZuy9JhLgHmeRtndT_-SVP0-h0rg');
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => UsersSearch()));
+              },
             ),
             const DrawerReusableChild(
               title: 'Settings',
@@ -61,10 +66,14 @@ class Draawer extends StatelessWidget {
               iconData: CupertinoIcons.list_number,
               color: Color(0xFF43C9A7),
             ),
-            const DrawerReusableChild(
+            DrawerReusableChild(
               title: 'Create Event',
               iconData: Icons.add,
-              color: Color(0xFFB39A7A),
+              color: const Color(0xFFB39A7A),
+              onPressed: () {
+                print(Provider.of<DataManager>(context, listen: false)
+                    .getUserToken);
+              },
             ),
             InkWell(
               onTap: () {},
@@ -106,10 +115,13 @@ class Draawer extends StatelessWidget {
                 ),
               ),
             ),
-            const DrawerReusableChild(
+            DrawerReusableChild(
               title: 'Sign Out',
               iconData: Icons.logout,
-              color: Color(0xFFE54E5D),
+              color: const Color(0xFFE54E5D),
+              onPressed: () {
+                logoutUser(context);
+              },
             ),
             const DrawerReusableChild(
               title: 'About',

@@ -9,30 +9,23 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       key: keyProfile,
       drawer: const Drawer(
         child: Draawer(),
       ),
       body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-             SilverAppbar(appBarKey: keyProfile,title: 'Profile',),
-          ];
-        },
-        body: Column(
-          children: [
-            Row(
-              children: [
-                const CircleAvatar(
-
-                )
-              ],
-            )
-          ],
-        )
-      ),
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SilverAppbar(
+                appBarKey: keyProfile,
+                title: 'Profile',
+              ),
+            ];
+          },
+          body: Column(
+            children: [],
+          )),
     );
   }
 }

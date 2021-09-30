@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sportm4te/API%20Manager/login_api_manager.dart';
+import 'package:sportm4te/API%20Manager/user_seach_api_manager.dart';
 import 'package:sportm4te/Models/user_model.dart';
+import 'package:sportm4te/Models/user_search_model.dart';
 
 class DataManager extends ChangeNotifier{
-  bool isLoginDone = false;
+  String isLoginDone = '';
   bool isDarkMode = false;
-  late Future<UserModel> userData;
+  String userToken = '';
+  late Future<Users> searchUsersList;
+  late UserModel userData;
 
-  void checkLogin(bool loginCheck){
-    isLoginDone = loginCheck;
+  void checkLogin(String loginCode){
+    isLoginDone = loginCode;
     notifyListeners();
   }
 
@@ -20,5 +24,26 @@ class DataManager extends ChangeNotifier{
     return isDarkMode;
   }
 
+ void usersSearchList(String token){
+    searchUsersList = UsersSearchApiManager().searchUsers(token);
+    notifyListeners();
+ }
+
+ Future<Users> get getSearchUsersList{
+    return searchUsersList;
+ }
+
+
+ void loginData(UserModel userModel){
+    userData = userModel;
+ }
+
+ void setUserToken(String token){
+    userToken = token;
+ }
+
+ String get getUserToken{
+    return userToken;
+ }
 
 }

@@ -14,11 +14,16 @@ class UserLoginApiManager {
           'https://api.sportm4te.com/v1.0/user/login?email=$email&password=$password'));
       print('This is code getting from ${response.statusCode}');
       if (response.statusCode == 201) {
-        Provider.of<DataManager>(context, listen: false).checkLogin(true);
+        Provider.of<DataManager>(context, listen: false).checkLogin('Done');
         var jsonString = response.body;
         var jsonMap = json.decode(jsonString);
         print(response.body);
         newsModel = UserModel.fromJson(jsonMap);
+        print('aaaaaaaaaaaaaa');
+        Provider.of<DataManager>(context, listen: false).loginData(newsModel);
+      }
+      else if(response.statusCode == 400){
+        Provider.of<DataManager>(context, listen: false).checkLogin('Bad Password');
       }
     } on Exception {
       return newsModel;

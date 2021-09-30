@@ -41,6 +41,7 @@ dependencies:
   curved_navigation_bar: ^1.0.1
   customizable_space_bar: ^0.2.0
   webview_cookie_manager: ^2.0.6
+  shared_preferences: ^2.0.8
  # flutter_user_agent: ^1.2.2
 
 dev_dependencies:

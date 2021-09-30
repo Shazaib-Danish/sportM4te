@@ -57,7 +57,7 @@ class SilverAppbar extends StatelessWidget {
                               ),
                             )),
                     const SizedBox(
-                      width: 20.0,
+                      width: 10.0,
                     ),
                     top > 71 && top < 91
                         ? const Icon(

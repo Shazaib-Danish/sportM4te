@@ -17,7 +17,8 @@ class _MyEventsState extends State<MyEvents> {
 
   @override
   void initState() {
-    _eventsModel = MyEventsApiManager().myEvents('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLnNwb3J0bTR0ZS5jb21cL3YxLjBcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjMyODU4MTM1LCJleHAiOjE2MzU0NTAxMzUsIm5iZiI6MTYzMjg1ODEzNSwianRpIjoicFJGbWd2eHZNZjBDQ0xkaCIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.g14Gm608vo3NWfIDZuy9JhLgHmeRtndT_-SVP0-h0rg');
+    _eventsModel = MyEventsApiManager().myEvents(
+        'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLnNwb3J0bTR0ZS5jb21cL3YxLjBcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjMyODU4MTM1LCJleHAiOjE2MzU0NTAxMzUsIm5iZiI6MTYzMjg1ODEzNSwianRpIjoicFJGbWd2eHZNZjBDQ0xkaCIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.g14Gm608vo3NWfIDZuy9JhLgHmeRtndT_-SVP0-h0rg');
     // _eventsModel = UserLoginApiManager().login('caplarobko@gmail.com', 'mamsafajn', context);
     super.initState();
   }
@@ -35,7 +36,7 @@ class _MyEventsState extends State<MyEvents> {
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
-                      Text(data.data!.event[index]),
+                      Text(data.data!.event),
                     ],
                   );
                 });
