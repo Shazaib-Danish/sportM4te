@@ -1,13 +1,13 @@
 // To parse this JSON data, do
 //
-//     final userMyEvents = userMyEventsFromJson(jsonString);
+//     final userMyEvents = userMyEventsFromJson(jsonString?);
 
 import 'dart:convert';
 
 UserMyEventsDetails userMyEventsFromJson(String str) =>
     UserMyEventsDetails.fromJson(json.decode(str));
 
-String userMyEventsToJson(UserMyEventsDetails data) =>
+String? userMyEventsToJson(UserMyEventsDetails data) =>
     json.encode(data.toJson());
 
 class UserMyEventsDetails {
@@ -19,14 +19,14 @@ class UserMyEventsDetails {
   Event event;
   List<UserMyEventsMember> members;
 
-  factory UserMyEventsDetails.fromJson(Map<String, dynamic> json) =>
+  factory UserMyEventsDetails.fromJson(Map<String?, dynamic> json) =>
       UserMyEventsDetails(
         event: Event.fromJson(json["event"]),
         members: List<UserMyEventsMember>.from(
             json["members"].map((x) => UserMyEventsMember.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "event": event.toJson(),
         "members": List<dynamic>.from(members.map((x) => x.toJson())),
       };
@@ -47,10 +47,10 @@ class Event {
     required this.owner,
   });
 
-  int id;
-  String event;
-  String description;
-  String link;
+  int? id;
+  String? event;
+  String? description;
+  String? link;
   bool public;
   Location location;
   Level level;
@@ -59,7 +59,7 @@ class Event {
   Limits limits;
   Owner owner;
 
-  factory Event.fromJson(Map<String, dynamic> json) => Event(
+  factory Event.fromJson(Map<String?, dynamic> json) => Event(
         id: json["id"],
         event: json["event"],
         description: json["description"],
@@ -73,7 +73,7 @@ class Event {
         owner: Owner.fromJson(json["owner"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "id": id,
         "event": event,
         "description": description,
@@ -95,17 +95,17 @@ class Dates {
     required this.end,
   });
 
-  String oneline;
+  String? oneline;
   Deadline start;
   Deadline end;
 
-  factory Dates.fromJson(Map<String, dynamic> json) => Dates(
+  factory Dates.fromJson(Map<String?, dynamic> json) => Dates(
         oneline: json["oneline"],
         start: Deadline.fromJson(json["start"]),
         end: Deadline.fromJson(json["end"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "oneline": oneline,
         "start": start.toJson(),
         "end": end.toJson(),
@@ -118,17 +118,17 @@ class Deadline {
     required this.formatted,
   });
 
-  DateTime? date;
-  String formatted;
+  String? date;
+  String? formatted;
 
-  factory Deadline.fromJson(Map<String, dynamic> json) => Deadline(
-        date: json["date"] == null ? null : DateTime.parse(json["date"]),
-        formatted: json["formatted"] == null ? null : json["formatted"],
+  factory Deadline.fromJson(Map<String?, dynamic> json) => Deadline(
+        date: json["date"],
+        formatted: json["formatted"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "date": date == null ? null : date!.toIso8601String(),
-        "formatted": formatted == null ? null : formatted,
+  Map<String?, dynamic> toJson() => {
+        "date": date,
+        "formatted": formatted,
       };
 }
 
@@ -138,15 +138,15 @@ class Level {
     required this.formatted,
   });
 
-  int id;
-  String formatted;
+  int? id;
+  String? formatted;
 
-  factory Level.fromJson(Map<String, dynamic> json) => Level(
+  factory Level.fromJson(Map<String?, dynamic> json) => Level(
         id: json["id"],
         formatted: json["formatted"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "id": id,
         "formatted": formatted,
       };
@@ -164,10 +164,10 @@ class Limits {
   dynamic deadline;
   bool deadlineReached;
   dynamic limit;
-  int members;
+  int? members;
   bool membersReached;
 
-  factory Limits.fromJson(Map<String, dynamic> json) => Limits(
+  factory Limits.fromJson(Map<String?, dynamic> json) => Limits(
         deadline: json["deadline"],
         deadlineReached: json["deadline_reached"],
         limit: json["limit"],
@@ -175,7 +175,7 @@ class Limits {
         membersReached: json["members_reached"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "deadline": deadline,
         "deadline_reached": deadlineReached,
         "limit": limit,
@@ -192,23 +192,23 @@ class Location {
     required this.formatted,
   });
 
-  int id;
-  double lat;
-  double lng;
-  String formatted;
+  int? id;
+  double? lat;
+  double? lng;
+  String? formatted;
 
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-        id: json["id"] == null ? null : json["id"],
+  factory Location.fromJson(Map<String?, dynamic> json) => Location(
+        id: json["id"],
         lat: json["lat"] == null ? null : json["lat"].toDouble(),
         lng: json["lng"] == null ? null : json["lng"].toDouble(),
-        formatted: json["formatted"] == null ? null : json["formatted"],
+        formatted: json["formatted"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id == null ? null : id,
-        "lat": lat == null ? null : lat,
-        "lng": lng == null ? null : lng,
-        "formatted": formatted == null ? null : formatted,
+  Map<String?, dynamic> toJson() => {
+        "id": id,
+        "lat": lat,
+        "lng": lng,
+        "formatted": formatted,
       };
 }
 
@@ -229,9 +229,9 @@ class Owner {
     required this.image,
   });
 
-  int id;
-  String username;
-  String email;
+  int? id;
+  String? username;
+  String? email;
   Level gender;
   Deadline birthdate;
   List<dynamic>? blocked;
@@ -241,12 +241,12 @@ class Owner {
   Location? location;
   dynamic bio;
   Level timezone;
-  String image;
+  String? image;
 
-  factory Owner.fromJson(Map<String, dynamic> json) => Owner(
+  factory Owner.fromJson(Map<String?, dynamic> json) => Owner(
         id: json["id"],
         username: json["username"],
-        email: json["email"] == null ? null : json["email"],
+        email: json["email"],
         gender: Level.fromJson(json["gender"]),
         birthdate: Deadline.fromJson(json["birthdate"]),
         blocked: json["blocked"] == null
@@ -264,10 +264,10 @@ class Owner {
         image: json["image"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "id": id,
         "username": username,
-        "email": email == null ? null : email,
+        "email": email,
         "gender": gender.toJson(),
         "birthdate": birthdate.toJson(),
         "blocked":
@@ -289,17 +289,17 @@ class SportElement {
     required this.sport,
   });
 
-  int id;
-  int priority;
+  int? id;
+  int? priority;
   SportSport sport;
 
-  factory SportElement.fromJson(Map<String, dynamic> json) => SportElement(
+  factory SportElement.fromJson(Map<String?, dynamic> json) => SportElement(
         id: json["id"],
         priority: json["priority"],
         sport: SportSport.fromJson(json["sport"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "id": id,
         "priority": priority,
         "sport": sport.toJson(),
@@ -315,13 +315,13 @@ class SportSport {
     required this.emoji,
   });
 
-  int id;
-  String slug;
-  String image;
-  String name;
-  String emoji;
+  int? id;
+  String? slug;
+  String? image;
+  String? name;
+  String? emoji;
 
-  factory SportSport.fromJson(Map<String, dynamic> json) => SportSport(
+  factory SportSport.fromJson(Map<String?, dynamic> json) => SportSport(
         id: json["id"],
         slug: json["slug"],
         image: json["image"],
@@ -329,7 +329,7 @@ class SportSport {
         emoji: json["emoji"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "id": id,
         "slug": slug,
         "image": image,
@@ -345,17 +345,17 @@ class Stats {
     required this.going,
   });
 
-  int friends;
-  int hosting;
-  int going;
+  int? friends;
+  int? hosting;
+  int? going;
 
-  factory Stats.fromJson(Map<String, dynamic> json) => Stats(
+  factory Stats.fromJson(Map<String?, dynamic> json) => Stats(
         friends: json["friends"],
         hosting: json["hosting"],
         going: json["going"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "friends": friends,
         "hosting": hosting,
         "going": going,
@@ -373,37 +373,37 @@ class UserMyEventsMember {
     required this.user,
   });
 
-  int id;
-  String type;
-  String name;
+  int? id;
+  String? type;
+  String? name;
   dynamic score;
   List<MemberMember>? members;
-  bool approved;
+  bool? approved;
   Owner? user;
 
-  factory UserMyEventsMember.fromJson(Map<String, dynamic> json) =>
+  factory UserMyEventsMember.fromJson(Map<String?, dynamic> json) =>
       UserMyEventsMember(
         id: json["id"],
         type: json["type"],
-        name: json["name"] == null ? null : json["name"],
+        name: json["name"],
         score: json["score"],
         members: json["members"] == null
             ? null
             : List<MemberMember>.from(
                 json["members"].map((x) => MemberMember.fromJson(x))),
-        approved: json["approved"] == null ? null : json["approved"],
+        approved: json["approved"],
         user: json["user"] == null ? null : Owner.fromJson(json["user"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "id": id,
         "type": type,
-        "name": name == null ? null : name,
+        "name": name,
         "score": score,
         "members": members == null
             ? null
             : List<dynamic>.from(members!.map((x) => x.toJson())),
-        "approved": approved == null ? null : approved,
+        "approved": approved,
         "user": user == null ? null : user!.toJson(),
       };
 }
@@ -415,17 +415,17 @@ class MemberMember {
     required this.user,
   });
 
-  int id;
-  String type;
+  int? id;
+  String? type;
   Owner user;
 
-  factory MemberMember.fromJson(Map<String, dynamic> json) => MemberMember(
+  factory MemberMember.fromJson(Map<String?, dynamic> json) => MemberMember(
         id: json["id"],
         type: json["type"],
         user: Owner.fromJson(json["user"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "id": id,
         "type": type,
         "user": user.toJson(),

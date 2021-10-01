@@ -6,7 +6,8 @@ import 'package:sportm4te/Data%20Manager/provider.dart';
 import 'package:sportm4te/Models/user_model.dart';
 
 class UserLoginApiManager {
-  Future<UserModel> login(String email, String password, BuildContext context) async {
+  Future<UserModel> login(
+      String email, String password, BuildContext context) async {
     var client = http.Client();
     var newsModel;
     try {
@@ -21,9 +22,9 @@ class UserLoginApiManager {
         newsModel = UserModel.fromJson(jsonMap);
         print('aaaaaaaaaaaaaa');
         Provider.of<DataManager>(context, listen: false).loginData(newsModel);
-      }
-      else if(response.statusCode == 400){
-        Provider.of<DataManager>(context, listen: false).checkLogin('Bad Password');
+      } else if (response.statusCode == 400) {
+        Provider.of<DataManager>(context, listen: false)
+            .checkLogin('Bad Password');
       }
     } on Exception {
       return newsModel;

@@ -1,10 +1,11 @@
-// To parse this JSON data, do
-//
-//     final userMyEvents = userMyEventsFromJson(jsonString);
+// ignore_for_file: unnecessary_null_in_if_null_operators
 
 import 'dart:convert';
 
-UserMyEvents userMyEventsFromJson(String str) => UserMyEvents.fromJson(json.decode(str));
+import 'dart:ffi';
+
+UserMyEvents userMyEventsFromJson(String str) =>
+    UserMyEvents.fromJson(json.decode(str));
 
 String userMyEventsToJson(UserMyEvents data) => json.encode(data.toJson());
 
@@ -24,20 +25,21 @@ class UserMyEvents {
   List<Going> pastEvents;
 
   factory UserMyEvents.fromJson(Map<String, dynamic> json) => UserMyEvents(
-    hosting: List<Host>.from(json["hosting"].map((x) => Host.fromJson(x))),
-    hosted: List<Host>.from(json["hosted"].map((x) => Host.fromJson(x))),
-    upcoming: List<dynamic>.from(json["upcoming"].map((x) => x)),
-    going: List<Going>.from(json["going"].map((x) => Going.fromJson(x))),
-    pastEvents: List<Going>.from(json["pastEvents"].map((x) => Going.fromJson(x))),
-  );
+        hosting: List<Host>.from(json["hosting"].map((x) => Host.fromJson(x))),
+        hosted: List<Host>.from(json["hosted"].map((x) => Host.fromJson(x))),
+        upcoming: List<dynamic>.from(json["upcoming"].map((x) => x)),
+        going: List<Going>.from(json["going"].map((x) => Going.fromJson(x))),
+        pastEvents:
+            List<Going>.from(json["pastEvents"].map((x) => Going.fromJson(x))),
+      );
 
   Map<String, dynamic> toJson() => {
-    "hosting": List<dynamic>.from(hosting.map((x) => x.toJson())),
-    "hosted": List<dynamic>.from(hosted.map((x) => x.toJson())),
-    "upcoming": List<dynamic>.from(upcoming.map((x) => x)),
-    "going": List<dynamic>.from(going.map((x) => x.toJson())),
-    "pastEvents": List<dynamic>.from(pastEvents.map((x) => x.toJson())),
-  };
+        "hosting": List<dynamic>.from(hosting.map((x) => x.toJson())),
+        "hosted": List<dynamic>.from(hosted.map((x) => x.toJson())),
+        "upcoming": List<dynamic>.from(upcoming.map((x) => x)),
+        "going": List<dynamic>.from(going.map((x) => x.toJson())),
+        "pastEvents": List<dynamic>.from(pastEvents.map((x) => x.toJson())),
+      };
 }
 
 class Going {
@@ -49,27 +51,27 @@ class Going {
     required this.user,
   });
 
-  int id;
+  int? id;
   String type;
   dynamic score;
   bool approved;
   User user;
 
   factory Going.fromJson(Map<String, dynamic> json) => Going(
-    id: json["id"],
-    type: json["type"],
-    score: json["score"],
-    approved: json["approved"],
-    user: User.fromJson(json["user"]),
-  );
+        id: json["id"],
+        type: json["type"],
+        score: json["score"],
+        approved: json["approved"],
+        user: User.fromJson(json["user"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "type": type,
-    "score": score,
-    "approved": approved,
-    "user": user.toJson(),
-  };
+        "id": id,
+        "type": type,
+        "score": score,
+        "approved": approved,
+        "user": user.toJson(),
+      };
 }
 
 class User {
@@ -89,7 +91,7 @@ class User {
     required this.image,
   });
 
-  int id;
+  int? id;
   String username;
   String email;
   Level gender;
@@ -104,36 +106,37 @@ class User {
   String image;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    id: json["id"],
-    username: json["username"],
-    email: json["email"],
-    gender: Level.fromJson(json["gender"]),
-    birthdate: Deadline.fromJson(json["birthdate"]),
-    blocked: List<dynamic>.from(json["blocked"].map((x) => x)),
-    sports: List<SportElement>.from(json["sports"].map((x) => SportElement.fromJson(x))),
-    stats: Stats.fromJson(json["stats"]),
-    unit: Level.fromJson(json["unit"]),
-    location: Location.fromJson(json["location"]),
-    bio: json["bio"],
-    timezone: Level.fromJson(json["timezone"]),
-    image: json["image"],
-  );
+        id: json["id"],
+        username: json["username"],
+        email: json["email"],
+        gender: Level.fromJson(json["gender"]),
+        birthdate: Deadline.fromJson(json["birthdate"]),
+        blocked: List<dynamic>.from(json["blocked"].map((x) => x)),
+        sports: List<SportElement>.from(
+            json["sports"].map((x) => SportElement.fromJson(x))),
+        stats: Stats.fromJson(json["stats"]),
+        unit: Level.fromJson(json["unit"]),
+        location: Location.fromJson(json["location"]),
+        bio: json["bio"],
+        timezone: Level.fromJson(json["timezone"]),
+        image: json["image"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "username": username,
-    "email": email,
-    "gender": gender.toJson(),
-    "birthdate": birthdate.toJson(),
-    "blocked": List<dynamic>.from(blocked.map((x) => x)),
-    "sports": List<dynamic>.from(sports.map((x) => x.toJson())),
-    "stats": stats.toJson(),
-    "unit": unit.toJson(),
-    "location": location.toJson(),
-    "bio": bio,
-    "timezone": timezone.toJson(),
-    "image": image,
-  };
+        "id": id,
+        "username": username,
+        "email": email,
+        "gender": gender.toJson(),
+        "birthdate": birthdate.toJson(),
+        "blocked": List<dynamic>.from(blocked.map((x) => x)),
+        "sports": List<dynamic>.from(sports.map((x) => x.toJson())),
+        "stats": stats.toJson(),
+        "unit": unit.toJson(),
+        "location": location.toJson(),
+        "bio": bio,
+        "timezone": timezone.toJson(),
+        "image": image,
+      };
 }
 
 class Deadline {
@@ -142,18 +145,18 @@ class Deadline {
     required this.formatted,
   });
 
-  DateTime? date;
-  String formatted;
+  String? date;
+  String? formatted;
 
-  factory Deadline.fromJson(Map<String, dynamic> json) => Deadline(
-    date: json["date"] == null ? null : DateTime.parse(json["date"]),
-    formatted: json["formatted"] == null ? null : json["formatted"],
-  );
+  factory Deadline.fromJson(Map<String?, dynamic> json) => Deadline(
+        date: json["date"] ?? '',
+        formatted: json["formatted"],
+      );
 
-  Map<String, dynamic> toJson() => {
-    "date": date == null ? null : date!.toIso8601String(),
-    "formatted": formatted == null ? null : formatted,
-  };
+  Map<String?, dynamic> toJson() => {
+        "date": date,
+        "formatted": formatted,
+      };
 }
 
 class Level {
@@ -162,18 +165,18 @@ class Level {
     required this.formatted,
   });
 
-  int id;
+  int? id;
   Formatted? formatted;
 
   factory Level.fromJson(Map<String, dynamic> json) => Level(
-    id: json["id"],
-    formatted: formattedValues.map[json["formatted"]],
-  );
+        id: json["id"],
+        formatted: formattedValues.map[json["formatted"]],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "formatted": formattedValues.reverse[formatted],
-  };
+        "id": id,
+        "formatted": formattedValues.reverse[formatted],
+      };
 }
 
 enum Formatted { MALE, EUROPE_BRATISLAVA, MI, SEMI_PROFESSIONAL }
@@ -193,24 +196,24 @@ class Location {
     required this.formatted,
   });
 
-  int id;
-  double lat;
-  double lng;
-  String formatted;
+  int? id;
+  double? lat;
+  double? lng;
+  String? formatted;
 
   factory Location.fromJson(Map<String, dynamic> json) => Location(
-    id: json["id"] == null ? null : json["id"],
-    lat: json["lat"] == null ? null : json["lat"].toDouble(),
-    lng: json["lng"] == null ? null : json["lng"].toDouble(),
-    formatted: json["formatted"] == null ? null : json["formatted"],
-  );
+        id: json["id"],
+        lat: json["lat"] == null ? null : json["lat"].toDouble(),
+        lng: json["lng"] == null ? null : json["lng"].toDouble(),
+        formatted: json["formatted"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id == null ? null : id,
-    "lat": lat == null ? null : lat,
-    "lng": lng == null ? null : lng,
-    "formatted": formatted == null ? null : formatted,
-  };
+        "id": id,
+        "lat": lat,
+        "lng": lng,
+        "formatted": formatted,
+      };
 }
 
 class SportElement {
@@ -220,21 +223,21 @@ class SportElement {
     required this.sport,
   });
 
-  int id;
-  int priority;
+  int? id;
+  int? priority;
   SportSport sport;
 
   factory SportElement.fromJson(Map<String, dynamic> json) => SportElement(
-    id: json["id"],
-    priority: json["priority"],
-    sport: SportSport.fromJson(json["sport"]),
-  );
+        id: json["id"],
+        priority: json["priority"],
+        sport: SportSport.fromJson(json["sport"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "priority": priority,
-    "sport": sport.toJson(),
-  };
+        "id": id,
+        "priority": priority,
+        "sport": sport.toJson(),
+      };
 }
 
 class SportSport {
@@ -246,49 +249,28 @@ class SportSport {
     required this.emoji,
   });
 
-  int id;
-  Slug? slug;
+  int? id;
+  String? slug;
   String image;
-  Name? name;
-  Emoji? emoji;
+  String? name;
+  String? emoji;
 
   factory SportSport.fromJson(Map<String, dynamic> json) => SportSport(
-    id: json["id"],
-    slug: slugValues.map[json["slug"]],
-    image: json["image"],
-    name: nameValues.map[json["name"]],
-    emoji: emojiValues.map[json["emoji"]],
-  );
+        id: json["id"],
+        slug: json["slug"],
+        image: json["image"],
+        name: json["name"],
+        emoji: json["emoji"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "slug": slugValues.reverse[slug],
-    "image": image,
-    "name": nameValues.reverse[name],
-    "emoji": emojiValues.reverse[emoji],
-  };
+        "id": id,
+        "slug": slug,
+        "image": image,
+        "name": name,
+        "emoji": emoji,
+      };
 }
-
-enum Emoji { EMPTY, EMOJI }
-
-final emojiValues = EnumValues({
-  "\ud83c\udfc3": Emoji.EMOJI,
-  "⚽": Emoji.EMPTY
-});
-
-enum Name { FOOTBALL, RUN }
-
-final nameValues = EnumValues({
-  "Football": Name.FOOTBALL,
-  "Run": Name.RUN
-});
-
-enum Slug { FOOTBALL, RUN }
-
-final slugValues = EnumValues({
-  "football": Slug.FOOTBALL,
-  "run": Slug.RUN
-});
 
 class Stats {
   Stats({
@@ -297,21 +279,21 @@ class Stats {
     required this.going,
   });
 
-  int friends;
-  int hosting;
-  int going;
+  int? friends;
+  int? hosting;
+  int? going;
 
   factory Stats.fromJson(Map<String, dynamic> json) => Stats(
-    friends: json["friends"],
-    hosting: json["hosting"],
-    going: json["going"],
-  );
+        friends: json["friends"],
+        hosting: json["hosting"],
+        going: json["going"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "friends": friends,
-    "hosting": hosting,
-    "going": going,
-  };
+        "friends": friends,
+        "hosting": hosting,
+        "going": going,
+      };
 }
 
 class Host {
@@ -329,7 +311,7 @@ class Host {
     required this.owner,
   });
 
-  int id;
+  int? id;
   String event;
   String description;
   String link;
@@ -342,32 +324,32 @@ class Host {
   User owner;
 
   factory Host.fromJson(Map<String, dynamic> json) => Host(
-    id: json["id"],
-    event: json["event"],
-    description: json["description"],
-    link: json["link"],
-    public: json["public"],
-    location: Location.fromJson(json["location"]),
-    level: Level.fromJson(json["level"]),
-    dates: Dates.fromJson(json["dates"]),
-    deadline: Deadline.fromJson(json["deadline"]),
-    limits: Limits.fromJson(json["limits"]),
-    owner: User.fromJson(json["owner"]),
-  );
+        id: json["id"],
+        event: json["event"],
+        description: json["description"],
+        link: json["link"],
+        public: json["public"],
+        location: Location.fromJson(json["location"]),
+        level: Level.fromJson(json["level"]),
+        dates: Dates.fromJson(json["dates"]),
+        deadline: Deadline.fromJson(json["deadline"]),
+        limits: Limits.fromJson(json["limits"]),
+        owner: User.fromJson(json["owner"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "event": event,
-    "description": description,
-    "link": link,
-    "public": public,
-    "location": location.toJson(),
-    "level": level.toJson(),
-    "dates": dates.toJson(),
-    "deadline": deadline.toJson(),
-    "limits": limits.toJson(),
-    "owner": owner.toJson(),
-  };
+        "id": id,
+        "event": event,
+        "description": description,
+        "link": link,
+        "public": public,
+        "location": location.toJson(),
+        "level": level.toJson(),
+        "dates": dates.toJson(),
+        "deadline": deadline.toJson(),
+        "limits": limits.toJson(),
+        "owner": owner.toJson(),
+      };
 }
 
 class Dates {
@@ -382,16 +364,16 @@ class Dates {
   Deadline end;
 
   factory Dates.fromJson(Map<String, dynamic> json) => Dates(
-    oneline: json["oneline"],
-    start: Deadline.fromJson(json["start"]),
-    end: Deadline.fromJson(json["end"]),
-  );
+        oneline: json["oneline"],
+        start: Deadline.fromJson(json["start"]),
+        end: Deadline.fromJson(json["end"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "oneline": oneline,
-    "start": start.toJson(),
-    "end": end.toJson(),
-  };
+        "oneline": oneline,
+        "start": start.toJson(),
+        "end": end.toJson(),
+      };
 }
 
 class Limits {
@@ -403,27 +385,27 @@ class Limits {
     required this.membersReached,
   });
 
-  DateTime? deadline;
+  String? deadline;
   bool deadlineReached;
-  int limit;
-  int members;
+  int? limit;
+  int? members;
   bool membersReached;
 
   factory Limits.fromJson(Map<String, dynamic> json) => Limits(
-    deadline: json["deadline"] == null ? null : DateTime.parse(json["deadline"]),
-    deadlineReached: json["deadline_reached"],
-    limit: json["limit"] == null ? null : json["limit"],
-    members: json["members"],
-    membersReached: json["members_reached"],
-  );
+        deadline: json["deadline"] ?? "",
+        deadlineReached: json["deadline_reached"] ?? false,
+        limit: json["limit"],
+        members: json["members"],
+        membersReached: json["members_reached"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "deadline": deadline == null ? null : deadline!.toIso8601String(),
-    "deadline_reached": deadlineReached,
-    "limit": limit == null ? null : limit,
-    "members": members,
-    "members_reached": membersReached,
-  };
+        "deadline": deadline,
+        "deadline_reached": deadlineReached,
+        "limit": limit,
+        "members": members,
+        "members_reached": membersReached,
+      };
 }
 
 class EnumValues<T> {
