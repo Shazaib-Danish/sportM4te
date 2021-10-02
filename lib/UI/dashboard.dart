@@ -58,30 +58,30 @@ class _DashboardState extends State<Dashboard> {
       drawer: const Drawer(
         child: Draawer(),
       ),
-      body: WebView(
-        initialUrl: 'https://app.sportm4te.com/',
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webViewController) {
-          _webViewController = webViewController;
-          _controller.complete(webViewController);
-        },
-        onProgress: (int progress) {
-          print("WebView is loading (progress : $progress%)");
-        },
-        onPageStarted: (String url) {
-          print('Page started loading: $url');
-        },
-        onPageFinished: (String url) {
-          print('Page finished loading: $url');
+      // body: WebView(
+      //   initialUrl: 'https://app.sportm4te.com/',
+      //   javascriptMode: JavascriptMode.unrestricted,
+      //   onWebViewCreated: (WebViewController webViewController) {
+      //     _webViewController = webViewController;
+      //     _controller.complete(webViewController);
+      //   },
+      //   onProgress: (int progress) {
+      //     print("WebView is loading (progress : $progress%)");
+      //   },
+      //   onPageStarted: (String url) {
+      //     print('Page started loading: $url');
+      //   },
+      //   onPageFinished: (String url) {
+      //     print('Page finished loading: $url');
 
-          // Removes header and footer from page
-          _webViewController
-              .evaluateJavascript(
-                  "document.getElementById('head').style.display = 'none'")
-              .then((value) => debugPrint('Page finished loading Javascript'))
-              .catchError((onError) => debugPrint('$onError'));
-        },
-      ),
+      //     // Removes header and footer from page
+      //     _webViewController
+      //         .evaluateJavascript(
+      //             "document.getElementById('head').style.display = 'none'")
+      //         .then((value) => debugPrint('Page finished loading Javascript'))
+      //         .catchError((onError) => debugPrint('$onError'));
+      //   },
+      // ),
     );
   }
 }

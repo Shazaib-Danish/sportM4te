@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sportm4te/UI/my_events_screen.dart';
+import 'package:sportm4te/UI/search_event.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key, required this.scaffoldKey}) : super(key: key);
@@ -40,6 +41,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
           } else if (_selectedIndex == 1) {
             Navigator.push(context,
                 CupertinoPageRoute(builder: (context) => const MyEvents()));
+          } else if (_selectedIndex == 0) {
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (context) => const SearchEvent()));
           }
         });
       },
