@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
 import 'package:sportm4te/UI/profile_screen.dart';
+import 'package:sportm4te/UI/search_event_by_user.dart';
 import 'package:sportm4te/UI/users_search.dart';
 import 'package:sportm4te/Widgets/drawer_resuable_child.dart';
 import 'package:sportm4te/logout/logout.dart';
@@ -52,8 +53,10 @@ class Draawer extends StatelessWidget {
               onPressed: () {
                 // Provider.of<DataManager>(context, listen: false).usersSearchList(
                 //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLnNwb3J0bTR0ZS5jb21cL3YxLjBcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjMyODU4MTM1LCJleHAiOjE2MzU0NTAxMzUsIm5iZiI6MTYzMjg1ODEzNSwianRpIjoicFJGbWd2eHZNZjBDQ0xkaCIsInN1YiI6MiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.g14Gm608vo3NWfIDZuy9JhLgHmeRtndT_-SVP0-h0rg');
-                // Navigator.push(context,
-                //     CupertinoPageRoute(builder: (context) => UsersSearch()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const SearchEventByUser()));
               },
             ),
             const DrawerReusableChild(

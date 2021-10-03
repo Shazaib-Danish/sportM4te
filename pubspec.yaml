@@ -45,6 +45,7 @@ dependencies:
   url_launcher: any
   uuid: any
   google_places_flutter: any
+ 
  # flutter_user_agent: ^1.2.2
 
 dev_dependencies:

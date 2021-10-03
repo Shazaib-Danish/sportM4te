@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:sportm4te/API%20Manager/login_api_manager.dart';
-import 'package:sportm4te/API%20Manager/user_seach_api_manager.dart';
+import 'package:sportm4te/API%20Manager/user_show_profile_api_manager.dart';
 import 'package:sportm4te/Models/user_model.dart';
 import 'package:sportm4te/Models/user_my_events.dart';
 import 'package:sportm4te/Models/user_search_model.dart';

@@ -2,38 +2,32 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:sportm4te/Models/address_search.dart';
 import 'package:sportm4te/Models/google_search_auto.dart';
 import 'package:sportm4te/Models/interset.dart';
+import 'package:sportm4te/Models/show_user_profile.dart';
+import 'package:sportm4te/UI/show_user_profile_ui.dart';
 
 import 'package:sportm4te/Widgets/draawer.dart';
 import 'package:sportm4te/Widgets/silver_app_bar.dart';
 import 'package:uuid/uuid.dart';
 
-class SearchEvent extends StatefulWidget {
-  const SearchEvent({Key? key}) : super(key: key);
+class SearchEventByUser extends StatefulWidget {
+  const SearchEventByUser({Key? key}) : super(key: key);
 
   @override
-  _SearchEventState createState() => _SearchEventState();
+  _SearchEventByUserState createState() => _SearchEventByUserState();
 }
 
-class _SearchEventState extends State<SearchEvent> {
+class _SearchEventByUserState extends State<SearchEventByUser> {
   final GlobalKey<ScaffoldState> keyProfile = GlobalKey();
   final TextEditingController _searchTextController = TextEditingController();
   final TextEditingController _searchLocationController =
       TextEditingController();
 
   final List<bool> _expanded = [false, false, false];
-  final List<bool> _eventDate = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false
-  ];
   bool value = false;
   @override
   void dispose() {
@@ -54,7 +48,7 @@ class _SearchEventState extends State<SearchEvent> {
           return <Widget>[
             SilverAppbar(
               appBarKey: keyProfile,
-              title: 'Search',
+              title: 'Search User',
             ),
           ];
         },
@@ -93,7 +87,7 @@ class _SearchEventState extends State<SearchEvent> {
                           controller: _searchTextController,
                           decoration: const InputDecoration(
                               border: InputBorder.none,
-                              hintText: "Searching for something..."),
+                              hintText: "Searching by username"),
                         ),
                       ),
                     ],
@@ -147,7 +141,7 @@ class _SearchEventState extends State<SearchEvent> {
                                             Icons.list,
                                             color: Colors.red,
                                           ),
-                                          title: Text("Sports"),
+                                          title: Text("Favourite Sports"),
                                         );
                                       },
                                       body: Column(
@@ -246,99 +240,6 @@ class _SearchEventState extends State<SearchEvent> {
                                           bool isActive) {
                                         return const ListTile(
                                           leading: Icon(
-                                            Icons.date_range_outlined,
-                                            color: Colors.blue,
-                                          ),
-                                          title: Text("Dates"),
-                                        );
-                                      },
-                                      body: Column(
-                                        children: [
-                                          ListTile(
-                                            title: const Text("Today"),
-                                            trailing: Checkbox(
-                                              value: _eventDate[0],
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _eventDate[0] = value!;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          ListTile(
-                                            title: const Text("Tommorow"),
-                                            trailing: Checkbox(
-                                              value: _eventDate[1],
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _eventDate[1] = value!;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          ListTile(
-                                            title: const Text("This Week"),
-                                            trailing: Checkbox(
-                                              value: _eventDate[2],
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _eventDate[2] = value!;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          ListTile(
-                                            title: const Text("This Weekend"),
-                                            trailing: Checkbox(
-                                              value: _eventDate[3],
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _eventDate[3] = value!;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          ListTile(
-                                            title: const Text("Next Week"),
-                                            trailing: Checkbox(
-                                              value: _eventDate[4],
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _eventDate[4] = value!;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          ListTile(
-                                            title: const Text("Next Weekend"),
-                                            trailing: Checkbox(
-                                              value: _eventDate[5],
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _eventDate[5] = value!;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                          ListTile(
-                                            title: const Text("In The Month"),
-                                            trailing: Checkbox(
-                                              value: _eventDate[6],
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  _eventDate[6] = value!;
-                                                });
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      isExpanded: _expanded[1]),
-                                  ExpansionPanel(
-                                      headerBuilder: (BuildContext context,
-                                          bool isActive) {
-                                        return const ListTile(
-                                          leading: Icon(
                                             Icons.location_on,
                                             color: Colors.green,
                                           ),
@@ -375,38 +276,143 @@ class _SearchEventState extends State<SearchEvent> {
                         const SizedBox(
                           height: 20,
                         ),
-                        Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          child: Row(
-                            children: const [
-                              Icon(
-                                Icons.push_pin_sharp,
-                                color: Colors.black,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                " Your sports",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              )
-                            ],
+                      ],
+                    )),
+                Container(
+                    margin: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.1),
+                              offset: const Offset(0, 0.5))
+                        ]),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ShowUserProfileUI(
+                                          userName: 'shahzaib',
+                                        )));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                      spreadRadius: 20,
+                                      blurRadius: 11,
+                                      color: Colors.grey.withOpacity(0.2),
+                                      offset: const Offset(1, 1))
+                                ]),
+                            child: const CircleAvatar(
+                              radius: 50,
+                              backgroundImage: NetworkImage(
+                                  'https://app.sportm4te.com/images/avatars/male.png'),
+                            ),
                           ),
                         ),
-                        const BottomContainerOfEvents(
-                          img:
-                              'https://app.sportm4te.com/images/sport/football.jpg',
-                          nOfEvents: '0 Upcoming',
-                          title: 'Football',
+                        const SizedBox(
+                          height: 10,
                         ),
-                        const BottomContainerOfEvents(
-                          img:
-                              'https://app.sportm4te.com/images/sport/football.jpg',
-                          nOfEvents: '0 Upcoming',
-                          title: 'Football',
+                        Text(
+                          "Username",
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Icon(
+                                Icons.star,
+                                color: Colors.yellow.shade700,
+                                size: 20,
+                              ),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "Member Since 13-oct-2020",
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          fav + " football, Run",
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  "0",
+                                  style: Theme.of(context).textTheme.headline6,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  "1",
+                                  style: Theme.of(context).textTheme.headline6,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  "2",
+                                  style: Theme.of(context).textTheme.headline6,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  "Friends",
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  "Events",
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Center(
+                                child: Text(
+                                  "Joined Events",
+                                  style: Theme.of(context).textTheme.caption,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ))

@@ -1,3 +1,3 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-const backGroundColor = Color(2382382381);
+final backGroundColor = Colors.grey.shade500;
