@@ -298,8 +298,9 @@ class _SearchEventByUserState extends State<SearchEventByUser> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ShowUserProfileUI(
-                                          userName: 'shahzaib',
+                                    builder: (context) =>
+                                        const ShowUserProfileUI(
+                                          userName: 'shazaib',
                                         )));
                           },
                           child: Container(
