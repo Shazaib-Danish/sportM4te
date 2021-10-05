@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -9,10 +11,12 @@ import 'package:sportm4te/API%20Manager/my_envents_api.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
 
 import 'package:sportm4te/Models/user_my_events.dart';
+import 'package:sportm4te/UI/edit_event_web_view.dart';
 import 'package:sportm4te/UI/event_deatil.dart';
 
 import 'package:sportm4te/Widgets/draawer.dart';
 import 'package:sportm4te/Widgets/silver_app_bar.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class MyEvents extends StatefulWidget {
   const MyEvents({Key? key}) : super(key: key);
@@ -202,78 +206,89 @@ class ListViewOfEventsHosting extends StatelessWidget {
             itemCount: data.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                EventsDetails(id: data[index].id)));
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            data[index].owner.sports[index].sport.image,
-                            fit: BoxFit.cover,
-                            height: 80,
-                            width: 70,
-                          ),
-                        ),
-                        Expanded(
-                            child: Container(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                data[index].owner.sports[index].sport.slug,
-                              ),
-                              Text(
-                                data[index].event,
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                data[index].dates.oneline,
-                                style: const TextStyle(
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                children: [
-                                  const Icon(Icons.location_on),
-                                  Text(
-                                    data[index].location.formatted!,
-                                    style: const TextStyle(),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        )),
-                        Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.green),
-                          child: Center(
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.edit_outlined,
-                                  color: Colors.white,
-                                )),
-                          ),
-                        ),
-                      ],
+              return Container(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        data[index].owner.sports[index].sport.image,
+                        fit: BoxFit.cover,
+                        height: 80,
+                        width: 70,
+                      ),
                     ),
-                  ));
+                    Expanded(
+                        child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditEventWebView(
+                                      url:
+                                          'https://app.sportm4te.com/events/${data[index].id}',
+                                    )));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              data[index].owner.sports[index].sport.slug,
+                            ),
+                            Text(
+                              data[index].event,
+                              style: const TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              data[index].dates.oneline,
+                              style: const TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.location_on),
+                                Text(
+                                  data[index].location.formatted!,
+                                  style: const TextStyle(),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.green),
+                      child: Center(
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditEventWebView(
+                                            url:
+                                                'https://app.sportm4te.com/events/${data[index].id}/edit',
+                                          )));
+                            },
+                            icon: const Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             },
           )
         : const Center(child: Text("You don't have any events"));
@@ -294,29 +309,31 @@ class ListViewOfEventsGoing extends StatelessWidget {
             itemCount: data.length,
             scrollDirection: Axis.vertical,
             itemBuilder: (BuildContext context, int index) {
-              return InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              EventsDetails(id: data[index].id)));
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          data[index].user.sports[index].sport.image,
-                          fit: BoxFit.cover,
-                          height: 80,
-                          width: 70,
-                        ),
+              return Container(
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        data[index].user.sports[index].sport.image,
+                        fit: BoxFit.cover,
+                        height: 80,
+                        width: 70,
                       ),
-                      Expanded(
-                          child: Container(
+                    ),
+                    Expanded(
+                        child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditEventWebView(
+                                      url:
+                                          'https://app.sportm4te.com/events/${data[index].id}',
+                                    )));
+                      },
+                      child: Container(
                         padding: const EdgeInsets.only(left: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -349,24 +366,32 @@ class ListViewOfEventsGoing extends StatelessWidget {
                             ),
                           ],
                         ),
-                      )),
-                      Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.green),
-                        child: Center(
-                          child: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.edit_outlined,
-                                color: Colors.white,
-                              )),
-                        ),
                       ),
-                    ],
-                  ),
+                    )),
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.green),
+                      child: Center(
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditEventWebView(
+                                            url:
+                                                'https://app.sportm4te.com/events/${data[index].id}/edit',
+                                          )));
+                            },
+                            icon: const Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            )),
+                      ),
+                    ),
+                  ],
                 ),
               );
             },

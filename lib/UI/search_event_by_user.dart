@@ -3,16 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-
-import 'package:sportm4te/Models/address_search.dart';
-import 'package:sportm4te/Models/google_search_auto.dart';
 import 'package:sportm4te/Models/interset.dart';
-import 'package:sportm4te/Models/show_user_profile.dart';
 import 'package:sportm4te/UI/show_user_profile_ui.dart';
-
 import 'package:sportm4te/Widgets/draawer.dart';
 import 'package:sportm4te/Widgets/silver_app_bar.dart';
-import 'package:uuid/uuid.dart';
 
 class SearchEventByUser extends StatefulWidget {
   const SearchEventByUser({Key? key}) : super(key: key);
@@ -248,21 +242,6 @@ class _SearchEventByUserState extends State<SearchEventByUser> {
                                       },
                                       body: TextField(
                                         controller: _searchLocationController,
-                                        readOnly: true,
-                                        onTap: () async {
-                                          final sessionToken =
-                                              const Uuid().v4();
-                                          Suggestion? result = await showSearch(
-                                            context: context,
-                                            delegate:
-                                                AddressSearch(sessionToken),
-                                          );
-                                          if (result != null) {
-                                            await PlaceApiProvider(sessionToken)
-                                                .getPlaceDetailFromId(
-                                                    result.placeId);
-                                          }
-                                        },
                                         decoration: const InputDecoration(
                                             border: OutlineInputBorder(),
                                             hintText: "Searching Location..."),
