@@ -18,6 +18,22 @@ class ShowUserProfileUI extends StatefulWidget {
 class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
   final GlobalKey<ScaffoldState> keyProfile = GlobalKey();
   late Future<ShowUserProfile> _eventsModel;
+  final List<bool> selectedStar = [true, true, true, true, true];
+  TextEditingController _review = TextEditingController();
+  var month = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
   @override
   void initState() {
     _eventsModel = ShowProfileUserApiManager().getUserDetailsByName(
@@ -45,194 +61,516 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
             ];
           },
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                FutureBuilder<ShowUserProfile>(
-                    future: _eventsModel,
-                    builder: (context, data) {
-                      if (data.hasData) {
-                        return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: 1,
-                            itemBuilder: (context, index) => Column(children: [
-                                  const Divider(
-                                    thickness: 1,
-                                    color: Colors.grey,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.all(20),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  spreadRadius: 20,
-                                                  blurRadius: 11,
-                                                  color: Colors.grey
-                                                      .withOpacity(0.2),
-                                                  offset: const Offset(1, 1))
-                                            ]),
-                                        child: CircleAvatar(
-                                          radius: 50,
-                                          backgroundImage: NetworkImage(
-                                              data.data!.user.image),
-                                        ),
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            data.data!.user.username,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headline6,
+            child: Container(
+              color: Colors.grey.withOpacity(0.1),
+              margin: const EdgeInsets.only(bottom: 10),
+              child: Column(
+                children: [
+                  FutureBuilder<ShowUserProfile>(
+                      future: _eventsModel,
+                      builder: (context, data) {
+                        if (data.hasData) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: 1,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) =>
+                                  Column(children: [
+                                    const Divider(
+                                      thickness: 1,
+                                      color: Colors.grey,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.all(20),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    spreadRadius: 20,
+                                                    blurRadius: 11,
+                                                    color: Colors.grey
+                                                        .withOpacity(0.2),
+                                                    offset: const Offset(1, 1))
+                                              ]),
+                                          child: CircleAvatar(
+                                            radius: 50,
+                                            backgroundImage: NetworkImage(
+                                                data.data!.user.image),
                                           ),
-                                          Row(children: [
-                                            IconButton(
-                                              splashColor: Colors.green,
-                                              onPressed: () {},
-                                              icon: const Icon(
-                                                Icons.person_add_alt_1,
-                                                color: Colors.green,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              data.data!.user.username,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline6,
+                                            ),
+                                            if (Provider.of<DataManager>(
+                                                        context)
+                                                    .userData
+                                                    .user
+                                                    .username
+                                                    .toLowerCase() !=
+                                                widget.userName.toLowerCase())
+                                              Row(children: [
+                                                IconButton(
+                                                  splashColor: Colors.green,
+                                                  onPressed: () {},
+                                                  icon: const Icon(
+                                                    Icons.person_add_alt_1,
+                                                    color: Colors.green,
+                                                  ),
+                                                ),
+                                                DropdownButton<String>(
+                                                  icon: const Icon(
+                                                    Icons.block,
+                                                    color: Colors.red,
+                                                  ),
+                                                  iconSize: 20,
+                                                  style: const TextStyle(
+                                                      color: Colors.black),
+                                                  onChanged:
+                                                      (String? newValue) {
+                                                    setState(() {});
+                                                  },
+                                                  items: <String>[
+                                                    'Block',
+                                                    'Report'
+                                                  ].map<
+                                                          DropdownMenuItem<
+                                                              String>>(
+                                                      (String value) {
+                                                    return DropdownMenuItem<
+                                                        String>(
+                                                      value: value,
+                                                      child: Text(value),
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                IconButton(
+                                                  splashColor: Colors.green,
+                                                  onPressed: () {},
+                                                  icon: const Icon(
+                                                    Icons.message,
+                                                    color: Colors.green,
+                                                  ),
+                                                ),
+                                              ]),
+                                            if (Provider.of<DataManager>(
+                                                        context)
+                                                    .userData
+                                                    .user
+                                                    .username
+                                                    .toLowerCase() ==
+                                                widget.userName.toLowerCase())
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Container(
+                                                    height: 32,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color: Colors.green,
+                                                            width: 2)),
+                                                    child: MaterialButton(
+                                                        onPressed: () {},
+                                                        child: Row(
+                                                          children: const [
+                                                            Icon(Icons.settings,
+                                                                color: Colors
+                                                                    .green),
+                                                            Text(
+                                                              "Update Account",
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .green),
+                                                            )
+                                                          ],
+                                                        )),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                            DropdownButton<String>(
-                                              icon: const Icon(
-                                                Icons.block,
-                                                color: Colors.red,
-                                              ),
-                                              iconSize: 20,
-                                              style: const TextStyle(
-                                                  color: Colors.black),
-                                              onChanged: (String? newValue) {
-                                                setState(() {});
-                                              },
-                                              items: <String>[
-                                                'Block',
-                                                'Report'
-                                              ].map<DropdownMenuItem<String>>(
-                                                  (String value) {
-                                                return DropdownMenuItem<String>(
-                                                  value: value,
-                                                  child: Text(value),
-                                                );
-                                              }).toList(),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            IconButton(
-                                              splashColor: Colors.green,
-                                              onPressed: () {},
-                                              icon: const Icon(
-                                                Icons.message,
-                                                color: Colors.green,
-                                              ),
-                                            ),
-                                          ]),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 1.1,
-                                    height: 100,
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: data.data!.user.sports.length,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) => (Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 8.0, left: 8, right: 10),
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.green,
-                                                border: Border.all(
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.1,
+                                      height: 100,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount:
+                                            data.data!.user.sports.length,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, index) =>
+                                            (Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0, left: 8, right: 10),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
                                                   color: Colors.green,
-                                                  width: 4.0,
+                                                  border: Border.all(
+                                                    color: Colors.green,
+                                                    width: 4.0,
+                                                  ),
+                                                ),
+                                                child: CircleAvatar(
+                                                  backgroundImage: NetworkImage(
+                                                      data
+                                                          .data!
+                                                          .user
+                                                          .sports[index]
+                                                          .sport
+                                                          .image),
                                                 ),
                                               ),
-                                              child: CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                    data
-                                                        .data!
-                                                        .user
-                                                        .sports[index]
-                                                        .sport
-                                                        .image),
-                                              ),
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(data.data!.user
-                                                .sports[index].sport.slug),
-                                          )
-                                        ],
-                                      )),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(data.data!.user
+                                                  .sports[index].sport.slug),
+                                            )
+                                          ],
+                                        )),
+                                      ),
                                     ),
-                                  ),
-                                  const Divider(
-                                    color: Colors.grey,
-                                    thickness: 1,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                          child: Center(
-                                              child: Text(
-                                                  '${data.data!.friends.list.length}'))),
-                                      Expanded(
-                                          child: Center(
-                                              child: Text(
-                                                  '${data.data!.events.public.length + data.data!.events.private.length}'))),
-                                      const Expanded(
-                                          child: Center(child: Text("0"))),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: const [
-                                      Expanded(
-                                          child:
-                                              Center(child: Text("Friends"))),
-                                      Expanded(
-                                          child: Center(child: Text("Events"))),
-                                      Expanded(
-                                          child: Center(
-                                              child: Text("Joined Events"))),
-                                    ],
-                                  ),
-                                  const Divider(
-                                    color: Colors.grey,
-                                    thickness: 1,
-                                  ),
-                                  if (data.data!.events.private.isNotEmpty ||
-                                      data.data!.events.public.isNotEmpty)
-                                    SizedBox(
+                                    const Divider(
+                                      color: Colors.grey,
+                                      thickness: 1,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            child: Center(
+                                                child: Text(
+                                                    '${data.data!.friends.list.length}'))),
+                                        Expanded(
+                                            child: Center(
+                                                child: Text(
+                                                    '${data.data!.events.public.length + data.data!.events.private.length}'))),
+                                        const Expanded(
+                                            child: Center(child: Text("0"))),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: const [
+                                        Expanded(
+                                            child:
+                                                Center(child: Text("Friends"))),
+                                        Expanded(
+                                            child:
+                                                Center(child: Text("Events"))),
+                                        Expanded(
+                                            child: Center(
+                                                child: Text("Joined Events"))),
+                                      ],
+                                    ),
+                                    const Divider(
+                                      color: Colors.grey,
+                                      thickness: 1,
+                                    ),
+                                    if (data.data!.events.private.isNotEmpty ||
+                                        data.data!.events.public.isNotEmpty)
+                                      SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.1,
+                                          height: 150,
+                                          child: MyWidget(
+                                              eventsModel: _eventsModel)),
+                                    if (Provider.of<DataManager>(context)
+                                            .userData
+                                            .user
+                                            .username
+                                            .toLowerCase() !=
+                                        widget.userName.toLowerCase())
+                                      Container(
+                                        height: 350,
                                         width:
                                             MediaQuery.of(context).size.width /
                                                 1.1,
-                                        height: 150,
-                                        child: MyWidget(
-                                            eventsModel: _eventsModel)),
-                                ]));
-                      } else {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    }),
-              ],
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.1),
+                                                  offset: const Offset(0, 0.5))
+                                            ]),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "My Review",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline6,
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.all(20),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  shape: BoxShape.circle,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        spreadRadius: 20,
+                                                        blurRadius: 11,
+                                                        color: Colors.grey
+                                                            .withOpacity(0.2),
+                                                        offset:
+                                                            const Offset(1, 1))
+                                                  ]),
+                                              child: CircleAvatar(
+                                                radius: 50,
+                                                backgroundImage: NetworkImage(
+                                                    Provider.of<DataManager>(
+                                                            context)
+                                                        .userData
+                                                        .user
+                                                        .image),
+                                              ),
+                                            ),
+                                            Text(
+                                              Provider.of<DataManager>(context)
+                                                  .userData
+                                                  .user
+                                                  .username,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline6,
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            SizedBox(
+                                              width: 120,
+                                              height: 20,
+                                              child: ListView.builder(
+                                                  itemCount: 5,
+                                                  shrinkWrap: true,
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemBuilder: (context,
+                                                          index) =>
+                                                      InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            if (selectedStar[
+                                                                index]) {
+                                                              selectedStar[
+                                                                      index] =
+                                                                  false;
+                                                            } else {
+                                                              selectedStar[
+                                                                  index] = true;
+                                                            }
+                                                          });
+                                                        },
+                                                        child: Icon(
+                                                          Icons.star,
+                                                          color: selectedStar[
+                                                                      index] ==
+                                                                  true
+                                                              ? Colors.yellow
+                                                                  .shade700
+                                                              : Colors.brown
+                                                                  .shade700,
+                                                        ),
+                                                      )),
+                                            ),
+                                            SizedBox(
+                                              width: 200,
+                                              height: 50,
+                                              child: TextField(
+                                                controller: _review,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  border: InputBorder.none,
+                                                  hintText:
+                                                      'Write Review...(Optional)',
+                                                ),
+                                              ),
+                                            ),
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              child: MaterialButton(
+                                                onPressed: () {},
+                                                color: Colors.green,
+                                                child:
+                                                    const Text("Save Review"),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
+                                    SizedBox(
+                                      height: 200,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: ListView.builder(
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount:
+                                            data.data!.reviews.received.length,
+                                        itemBuilder: (context, index) =>
+                                            Container(
+                                          height: 150,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          margin: const EdgeInsets.all(20),
+                                          padding: const EdgeInsets.all(10),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.1),
+                                                    offset:
+                                                        const Offset(0, 0.5))
+                                              ]),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  SizedBox(
+                                                    height: 50,
+                                                    width: 150,
+                                                    child: ListView.builder(
+                                                        physics:
+                                                            const NeverScrollableScrollPhysics(),
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        itemCount: data
+                                                            .data!
+                                                            .reviews
+                                                            .received[index]
+                                                            .stars,
+                                                        itemBuilder:
+                                                            (context, index) =>
+                                                                Icon(
+                                                                  Icons.star,
+                                                                  color: Colors
+                                                                      .yellow
+                                                                      .shade700,
+                                                                )),
+                                                  ),
+                                                  CircleAvatar(
+                                                    backgroundImage:
+                                                        NetworkImage(data
+                                                            .data!
+                                                            .reviews
+                                                            .received[index]
+                                                            .author
+                                                            .image),
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        data
+                                                            .data!
+                                                            .reviews
+                                                            .received[index]
+                                                            .author
+                                                            .username,
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .headline6,
+                                                      ),
+                                                      Text(
+                                                        data
+                                                                .data!
+                                                                .reviews
+                                                                .received[index]
+                                                                .createdAt
+                                                                .day
+                                                                .toString() +
+                                                            'th ' +
+                                                            month[data
+                                                                    .data!
+                                                                    .reviews
+                                                                    .received[
+                                                                        index]
+                                                                    .createdAt
+                                                                    .month -
+                                                                1] +
+                                                            ', ' +
+                                                            data
+                                                                .data!
+                                                                .reviews
+                                                                .received[index]
+                                                                .createdAt
+                                                                .year
+                                                                .toString(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .caption,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              Text(
+                                                data.data!.reviews
+                                                    .received[index].review,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .subtitle1,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ]));
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }),
+                ],
+              ),
             ),
           ),
         ));

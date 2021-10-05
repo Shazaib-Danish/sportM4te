@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SilverAppbar extends StatelessWidget {
-  const SilverAppbar({Key? key, required this.appBarKey, required this.title}) : super(key: key);
+  const SilverAppbar({Key? key, required this.appBarKey, required this.title})
+      : super(key: key);
 
   final GlobalKey<ScaffoldState> appBarKey;
   final String title;

@@ -454,13 +454,122 @@ class Reviews {
     required this.received,
   });
 
-  List<dynamic> received;
+  List<Received> received;
 
   factory Reviews.fromJson(Map<String, dynamic> json) => Reviews(
-        received: List<dynamic>.from(json["received"].map((x) => x)),
+        received: List<Received>.from(
+            json["received"].map((x) => Received.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "received": List<dynamic>.from(received.map((x) => x)),
+        "received": List<dynamic>.from(received.map((x) => x.toJson())),
+      };
+}
+
+class Received {
+  Received({
+    required this.id,
+    required this.authorId,
+    required this.userId,
+    required this.stars,
+    required this.review,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.author,
+  });
+
+  int id;
+  int authorId;
+  int userId;
+  int stars;
+  String review;
+  DateTime createdAt;
+  DateTime updatedAt;
+  Author author;
+
+  factory Received.fromJson(Map<String, dynamic> json) => Received(
+        id: json["id"],
+        authorId: json["author_id"],
+        userId: json["user_id"],
+        stars: json["stars"],
+        review: json["review"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        author: Author.fromJson(json["author"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "author_id": authorId,
+        "user_id": userId,
+        "stars": stars,
+        "review": review,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "author": author.toJson(),
+      };
+}
+
+class Author {
+  Author({
+    required this.id,
+    required this.username,
+    required this.email,
+    required this.gender,
+    required this.birthdate,
+    required this.blocked,
+    required this.sports,
+    required this.stats,
+    required this.unit,
+    required this.location,
+    required this.bio,
+    required this.timezone,
+    required this.image,
+  });
+
+  int id;
+  String username;
+  String email;
+  Gender gender;
+  Birthdate birthdate;
+  List<dynamic> blocked;
+  List<dynamic> sports;
+  Location stats;
+  Location unit;
+  Location location;
+  dynamic bio;
+  Location timezone;
+  String image;
+
+  factory Author.fromJson(Map<String, dynamic> json) => Author(
+        id: json["id"],
+        username: json["username"],
+        email: json["email"],
+        gender: Gender.fromJson(json["gender"]),
+        birthdate: Birthdate.fromJson(json["birthdate"]),
+        blocked: List<dynamic>.from(json["blocked"].map((x) => x)),
+        sports: List<dynamic>.from(json["sports"].map((x) => x)),
+        stats: Location.fromJson(json["stats"]),
+        unit: Location.fromJson(json["unit"]),
+        location: Location.fromJson(json["location"]),
+        bio: json["bio"],
+        timezone: Location.fromJson(json["timezone"]),
+        image: json["image"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "username": username,
+        "email": email,
+        "gender": gender.toJson(),
+        "birthdate": birthdate.toJson(),
+        "blocked": List<dynamic>.from(blocked.map((x) => x)),
+        "sports": List<dynamic>.from(sports.map((x) => x)),
+        "stats": stats.toJson(),
+        "unit": unit.toJson(),
+        "location": location.toJson(),
+        "bio": bio,
+        "timezone": timezone.toJson(),
+        "image": image,
       };
 }
