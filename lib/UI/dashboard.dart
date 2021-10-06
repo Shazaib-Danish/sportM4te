@@ -6,6 +6,8 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
+import 'package:sportm4te/UI/my_events_screen.dart';
+import 'package:sportm4te/UI/search_event.dart';
 import 'package:sportm4te/Widgets/bottom_nav_bar.dart';
 import 'package:sportm4te/Widgets/draawer.dart';
 import 'package:webview_cookie_manager/webview_cookie_manager.dart';
@@ -25,8 +27,8 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final GlobalKey<ScaffoldState> _keyDashboard = GlobalKey();
-
+  final GlobalKey<ScaffoldState> keyDashboard = GlobalKey();
+  int _selectedIndex = 2;
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
   late SharedPreferences loginPreferences;
@@ -35,6 +37,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     getUserDataIfLogedIn();
+    _selectedIndex = 2;
     super.initState();
   }
 
@@ -51,37 +54,26 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _keyDashboard,
+      key: keyDashboard,
       bottomNavigationBar: BottomNavBar(
-        scaffoldKey: _keyDashboard,
+        scaffoldKey: keyDashboard,
+        onTap: (index) {
+          print(index);
+          setState(() {
+            _selectedIndex = index;
+          });
+          if(_selectedIndex == 4){
+            keyDashboard.currentState!.openDrawer();
+          }
+        },
+        index: _selectedIndex,
       ),
       drawer: const Drawer(
         child: Draawer(),
       ),
-      // body: WebView(
-      //   initialUrl: 'https://app.sportm4te.com/',
-      //   javascriptMode: JavascriptMode.unrestricted,
-      //   onWebViewCreated: (WebViewController webViewController) {
-      //     _webViewController = webViewController;
-      //     _controller.complete(webViewController);
-      //   },
-      //   onProgress: (int progress) {
-      //     print("WebView is loading (progress : $progress%)");
-      //   },
-      //   onPageStarted: (String url) {
-      //     print('Page started loading: $url');
-      //   },
-      //   onPageFinished: (String url) {
-      //     print('Page finished loading: $url');
-
-      //     // Removes header and footer from page
-      //     _webViewController
-      //         .evaluateJavascript(
-      //             "document.getElementById('head').style.display = 'none'")
-      //         .then((value) => debugPrint('Page finished loading Javascript'))
-      //         .catchError((onError) => debugPrint('$onError'));
-      //   },
-      // ),
+      body: _selectedIndex == 0 ? const SearchEvent()
+          :_selectedIndex == 1 ? const MyEvents()
+          : const Text('A'),
     );
   }
 }

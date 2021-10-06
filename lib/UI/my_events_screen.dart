@@ -36,7 +36,7 @@ class _MyEventsState extends State<MyEvents> {
             return <Widget>[
               SilverAppbar(
                 appBarKey: keyProfile,
-                title: 'Profile',
+                title: 'My Events',
               ),
             ];
           },
@@ -107,20 +107,20 @@ class _MyWidgetState extends State<MyWidget> {
               'Hosting',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 15,
+                  fontSize: 14,
                   fontStyle: FontStyle.italic),
             ),
             _Tab.Upcoming: Text(
               'Upcoming',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
             _Tab.Going: Text(
               'Going',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
             _Tab.PastEvents: Text(
               'Past Event',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
           },
           onValueChanged: (value) {

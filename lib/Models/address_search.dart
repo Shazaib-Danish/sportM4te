@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:sportm4te/Models/google_search_auto.dart';
 
 class AddressSearch extends SearchDelegate<Suggestion> {
@@ -14,7 +13,7 @@ class AddressSearch extends SearchDelegate<Suggestion> {
     return [
       IconButton(
         tooltip: 'Clear',
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
@@ -26,7 +25,7 @@ class AddressSearch extends SearchDelegate<Suggestion> {
   Widget buildLeading(BuildContext context) {
     return IconButton(
       tooltip: 'Back',
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         Navigator.of(context).pop();
       },
@@ -47,8 +46,8 @@ class AddressSearch extends SearchDelegate<Suggestion> {
               query, Localizations.localeOf(context).languageCode),
       builder: (context, snapshot) => query == ''
           ? Container(
-              padding: EdgeInsets.all(16.0),
-              child: Text('Enter your address'),
+              padding: const EdgeInsets.all(16.0),
+              child: const Text('Enter your address'),
             )
           : snapshot.hasData
               ? ListView.builder(
@@ -56,7 +55,7 @@ class AddressSearch extends SearchDelegate<Suggestion> {
                   itemBuilder: (context, index) => Container(
                         child: Text((snapshot.data as Suggestion).description),
                       ))
-              : Container(child: Text('Loading...')),
+              : Container(child: const Text('Loading...')),
     );
   }
 }

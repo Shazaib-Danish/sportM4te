@@ -4,22 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:sportm4te/UI/my_events_screen.dart';
 import 'package:sportm4te/UI/search_event.dart';
 
-class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({Key? key, required this.scaffoldKey}) : super(key: key);
+
+
+class BottomNavBar extends StatelessWidget {
+  const BottomNavBar({Key? key, required this.scaffoldKey, this.onTap, required this.index}) : super(key: key);
 
   final GlobalKey<ScaffoldState> scaffoldKey;
-
-  @override
-  _BottomNavBarState createState() => _BottomNavBarState();
-}
-
-class _BottomNavBarState extends State<BottomNavBar> {
-  int _selectedIndex = 2;
+  final Function(int)? onTap;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
-      index: _selectedIndex,
+      index: index,
       height: 60.0,
       items: const [
         Icon(Icons.search, size: 30),
@@ -33,20 +30,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       backgroundColor: Colors.green,
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 600),
-      onTap: (index) {
-        setState(() {
-          _selectedIndex = index;
-          if (_selectedIndex == 4) {
-            widget.scaffoldKey.currentState!.openDrawer();
-          } else if (_selectedIndex == 1) {
-            Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => const MyEvents()));
-          } else if (_selectedIndex == 0) {
-            Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => const SearchEvent()));
-          }
-        });
-      },
+      onTap: onTap,
       letIndexChange: (index) => true,
     );
   }
