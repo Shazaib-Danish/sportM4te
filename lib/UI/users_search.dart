@@ -6,7 +6,7 @@ import 'package:sportm4te/Widgets/draawer.dart';
 import 'package:sportm4te/Widgets/silver_app_bar.dart';
 
 class UsersSearch extends StatelessWidget {
-   UsersSearch({Key? key}) : super(key: key);
+  UsersSearch({Key? key}) : super(key: key);
 
   final GlobalKey<ScaffoldState> keyUserSearch = GlobalKey();
 
@@ -20,20 +20,22 @@ class UsersSearch extends StatelessWidget {
       body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
-              SilverAppbar(appBarKey: keyUserSearch,title: 'Search Users',),
+              SilverAppbar(
+                appBarKey: keyUserSearch,
+                title: 'Search Users',
+              ),
             ];
           },
           body: FutureBuilder<Users>(
-            future: Provider.of<DataManager>(context, listen: false).getSearchUsersList,
-            builder: (context, data) {
-              return ListView.builder(
-                  itemCount: data.data!.total,
-                  itemBuilder: (context, index){
-                return Text(data.data!.data[index].username);
-              });
-            }
-          )
-      ),
+              future: Provider.of<DataManager>(context, listen: false)
+                  .getSearchUsersList,
+              builder: (context, data) {
+                return ListView.builder(
+                    itemCount: data.data!.total,
+                    itemBuilder: (context, index) {
+                      return Text(data.data!.data[index].username);
+                    });
+              })),
     );
   }
 }

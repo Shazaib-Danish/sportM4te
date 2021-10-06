@@ -120,7 +120,8 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                   .headline6,
                                             ),
                                             if (Provider.of<DataManager>(
-                                                        context)
+                                                        context,
+                                                        listen: false)
                                                     .userData
                                                     .user
                                                     .username
@@ -265,7 +266,8 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                 ),
                                               ]),
                                             if (Provider.of<DataManager>(
-                                                        context)
+                                                        context,
+                                                        listen: false)
                                                     .userData
                                                     .user
                                                     .username
@@ -399,7 +401,8 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                           height: 150,
                                           child: MyWidget(
                                               eventsModel: _eventsModel)),
-                                    if (Provider.of<DataManager>(context)
+                                    if (Provider.of<DataManager>(context,
+                                                listen: false)
                                             .userData
                                             .user
                                             .username
@@ -448,14 +451,16 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                 radius: 50,
                                                 backgroundImage: NetworkImage(
                                                     Provider.of<DataManager>(
-                                                            context)
+                                                            context,
+                                                            listen: false)
                                                         .userData
                                                         .user
                                                         .image),
                                               ),
                                             ),
                                             Text(
-                                              Provider.of<DataManager>(context)
+                                              Provider.of<DataManager>(context,
+                                                      listen: false)
                                                   .userData
                                                   .user
                                                   .username,
