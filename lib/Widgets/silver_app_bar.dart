@@ -61,14 +61,17 @@ class SilverAppbar extends StatelessWidget {
                       width: 10.0,
                     ),
                     top > 71 && top < 91
-                        ? const Icon(
-                            Icons.menu,
-                            size: 20.0,
-                          )
-                        : InkWell(
+                        ? InkWell(
+                            child: const Icon(
+                              Icons.menu,
+                              size: 20.0,
+                            ),
                             onTap: () {
                               appBarKey.currentState!.openDrawer();
                             },
+                          )
+                        : InkWell(
+                            onTap: () {},
                             child: Material(
                                 elevation: 5.0,
                                 borderRadius: BorderRadius.circular(12.0),

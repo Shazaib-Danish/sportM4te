@@ -11,7 +11,7 @@ class MyEventAPIManager {
 
     var response = await client.get(
         Uri.parse('https://api.sportm4te.com/v1.0/events/me/?token=$token'));
-
+    print(response.statusCode);
     return UserMyEvents.fromJson(jsonDecode(response.body));
   }
 }
