@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
@@ -10,12 +9,8 @@ import 'package:sportm4te/UI/my_events_screen.dart';
 import 'package:sportm4te/UI/search_event.dart';
 import 'package:sportm4te/Widgets/bottom_nav_bar.dart';
 import 'package:sportm4te/Widgets/draawer.dart';
-import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
-
-import 'package:flutter/services.dart';
-// import 'package:flutter_user_agent/flutter_user_agent.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key, this.isLogedIn}) : super(key: key);
@@ -62,7 +57,7 @@ class _DashboardState extends State<Dashboard> {
           setState(() {
             _selectedIndex = index;
           });
-          if(_selectedIndex == 4){
+          if (_selectedIndex == 4) {
             keyDashboard.currentState!.openDrawer();
           }
         },
@@ -71,9 +66,11 @@ class _DashboardState extends State<Dashboard> {
       drawer: const Drawer(
         child: Draawer(),
       ),
-      body: _selectedIndex == 0 ? const SearchEvent()
-          :_selectedIndex == 1 ? const MyEvents()
-          : const Text('A'),
+      body: _selectedIndex == 0
+          ? const SearchEvent()
+          : _selectedIndex == 1
+              ? const MyEvents()
+              : const Text('A'),
     );
   }
 }

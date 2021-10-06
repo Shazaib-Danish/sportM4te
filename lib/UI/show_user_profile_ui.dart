@@ -1,11 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sportm4te/API%20Manager/api_block.dart';
+import 'package:sportm4te/API%20Manager/api_send_frnd_reqst.dart';
 import 'package:sportm4te/API%20Manager/user_show_profile_api_manager.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
+import 'package:sportm4te/Models/friend_request_model.dart';
 import 'package:sportm4te/Models/show_user_profile.dart';
+import 'package:sportm4te/UI/dashboard.dart';
 import 'package:sportm4te/Widgets/draawer.dart';
 import 'package:sportm4te/Widgets/silver_app_bar.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class ShowUserProfileUI extends StatefulWidget {
   const ShowUserProfileUI({Key? key, required this.userName}) : super(key: key);
@@ -123,7 +129,48 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                               Row(children: [
                                                 IconButton(
                                                   splashColor: Colors.green,
-                                                  onPressed: () {},
+                                                  onPressed: () async {
+                                                    SendFriendRequestAPIManager()
+                                                        .sentFriendRequest(
+                                                            Provider.of<DataManager>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .userToken,
+                                                            Provider.of<DataManager>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .userData
+                                                                .user
+                                                                .id,
+                                                            context)
+                                                        .whenComplete(() {
+                                                      final request = Provider
+                                                              .of<DataManager>(
+                                                                  context,
+                                                                  listen: false)
+                                                          .friendRequest;
+                                                      if (request.message ==
+                                                          'Friend request has been sent!') {
+                                                        showTopSnackBar(
+                                                            context,
+                                                            const CustomSnackBar
+                                                                .success(
+                                                              message:
+                                                                  "Friend request has been sent!",
+                                                            ));
+                                                      } else {
+                                                        showTopSnackBar(
+                                                            context,
+                                                            const CustomSnackBar
+                                                                .error(
+                                                              message:
+                                                                  "Failed to send request",
+                                                            ));
+                                                      }
+                                                    });
+                                                  },
                                                   icon: const Icon(
                                                     Icons.person_add_alt_1,
                                                     color: Colors.green,
@@ -138,8 +185,58 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                   style: const TextStyle(
                                                       color: Colors.black),
                                                   onChanged:
-                                                      (String? newValue) {
-                                                    setState(() {});
+                                                      (String? newValue) async {
+                                                    if (newValue == 'Block') {
+                                                      BlockAPIManager()
+                                                          .blockFriend(
+                                                              Provider.of<DataManager>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .userToken,
+                                                              Provider.of<DataManager>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .userData
+                                                                  .user
+                                                                  .username,
+                                                              context)
+                                                          .whenComplete(() {
+                                                        final request = Provider
+                                                                .of<DataManager>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                            .blockFriend;
+                                                        if (request.message ==
+                                                            'User has been unblocked') {
+                                                          showTopSnackBar(
+                                                              context,
+                                                              const CustomSnackBar
+                                                                  .success(
+                                                                message:
+                                                                    "User has been unblocked",
+                                                              ));
+                                                          Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          const Dashboard()));
+                                                        } else {
+                                                          showTopSnackBar(
+                                                              context,
+                                                              const CustomSnackBar
+                                                                  .error(
+                                                                message:
+                                                                    "Failed to block",
+                                                              ));
+                                                        }
+                                                      });
+                                                    } else {
+                                                      setState(() {});
+                                                    }
                                                   },
                                                   items: <String>[
                                                     'Block',

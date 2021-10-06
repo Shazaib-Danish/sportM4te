@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:sportm4te/UI/my_events_screen.dart';
 import 'package:sportm4te/UI/search_event.dart';
 
-
-
 class BottomNavBar extends StatelessWidget {
-  const BottomNavBar({Key? key, required this.scaffoldKey, this.onTap, required this.index}) : super(key: key);
+  const BottomNavBar(
+      {Key? key,
+      required this.scaffoldKey,
+      required this.onTap,
+      required this.index})
+      : super(key: key);
 
   final GlobalKey<ScaffoldState> scaffoldKey;
   final Function(int)? onTap;
