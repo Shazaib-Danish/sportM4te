@@ -20,6 +20,7 @@ class ProfileScreen extends StatelessWidget {
               SilverAppbar(
                 appBarKey: keyProfile,
                 title: 'Profile',
+                isEventDetail: false,
               ),
             ];
           },

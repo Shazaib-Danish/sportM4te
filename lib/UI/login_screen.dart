@@ -16,7 +16,6 @@ class Login extends StatelessWidget {
   String userEmail = '';
   String userPassword = '';
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +77,7 @@ class Login extends StatelessWidget {
                           Icons.email,
                           color: Colors.white,
                         )),
-                    onChanged: (value){
+                    onChanged: (value) {
                       userEmail = value;
                     },
                   ),
@@ -102,7 +101,7 @@ class Login extends StatelessWidget {
                           Icons.lock,
                           color: Colors.white,
                         )),
-                    onChanged: (value){
+                    onChanged: (value) {
                       userPassword = value;
                     },
                     obscureText: true,
@@ -113,14 +112,15 @@ class Login extends StatelessWidget {
                   ReusableMaterialButton(
                     title: 'Login',
                     onPressed: () async {
-                      SharedPreferences loginPreferences = await SharedPreferences.getInstance();
-                    await UserLoginApiManager()
+                      SharedPreferences loginPreferences =
+                          await SharedPreferences.getInstance();
+                      await UserLoginApiManager()
                           .login(userEmail, userPassword, context)
                           .whenComplete(() {
                         final loginCheck =
                             Provider.of<DataManager>(context, listen: false)
                                 .isLoginDone;
-                        if (loginCheck  == 'Bad Password') {
+                        if (loginCheck == 'Bad Password') {
                           showTopSnackBar(
                             context,
                             const CustomSnackBar.error(
@@ -135,14 +135,28 @@ class Login extends StatelessWidget {
                               message: "You have loged in, Have a nice day",
                             ),
                           );
-                          final loginData = Provider.of<DataManager>(context, listen: false).userData;
-                          loginPreferences.setString('userToken', loginData.token);
+                          final loginData =
+                              Provider.of<DataManager>(context, listen: false)
+                                  .userData;
+                          loginPreferences.setString(
+                              'userToken', loginData.token);
+                          loginPreferences.setString(
+                              'userName', loginData.user.username);
+                          loginPreferences.setInt(
+                              'userName', loginData.user.id);
                           loginPreferences.setBool('isLogedIn', false);
-                          Provider.of<DataManager>(context, listen: false).setUserToken(loginData.token);
+                          Provider.of<DataManager>(context, listen: false)
+                              .setUserToken(loginData.token);
+                          Provider.of<DataManager>(context, listen: false)
+                              .setUserName(loginData.user.username);
+                          Provider.of<DataManager>(context, listen: false)
+                              .setUserID(loginData.user.id);
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                builder: (context) => const Dashboard(isLogedIn: false,),
+                                builder: (context) => const Dashboard(
+                                  isLogedIn: false,
+                                ),
                               ));
                         }
                       });

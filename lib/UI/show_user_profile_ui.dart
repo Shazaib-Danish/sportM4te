@@ -63,6 +63,7 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
               SilverAppbar(
                 appBarKey: keyProfile,
                 title: 'Profile',
+                isEventDetail: false,
               ),
             ];
           },
@@ -122,9 +123,7 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                             if (Provider.of<DataManager>(
                                                         context,
                                                         listen: false)
-                                                    .userData
-                                                    .user
-                                                    .username
+                                                    .userName
                                                     .toLowerCase() !=
                                                 widget.userName.toLowerCase())
                                               Row(children: [
@@ -142,9 +141,7 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                                     context,
                                                                     listen:
                                                                         false)
-                                                                .userData
-                                                                .user
-                                                                .id,
+                                                                .userID!,
                                                             context)
                                                         .whenComplete(() {
                                                       final request = Provider
@@ -199,9 +196,7 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                                       context,
                                                                       listen:
                                                                           false)
-                                                                  .userData
-                                                                  .user
-                                                                  .username,
+                                                                  .userName,
                                                               context)
                                                           .whenComplete(() {
                                                         final request = Provider
@@ -268,9 +263,7 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                             if (Provider.of<DataManager>(
                                                         context,
                                                         listen: false)
-                                                    .userData
-                                                    .user
-                                                    .username
+                                                    .userName
                                                     .toLowerCase() ==
                                                 widget.userName.toLowerCase())
                                               Row(

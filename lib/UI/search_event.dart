@@ -65,6 +65,7 @@ class _SearchEventState extends State<SearchEvent> {
             SilverAppbar(
               appBarKey: keyProfile,
               title: 'Search',
+              isEventDetail: false,
             ),
           ];
         },

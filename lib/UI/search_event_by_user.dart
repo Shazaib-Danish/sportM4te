@@ -75,6 +75,7 @@ class _SearchEventByUserState extends State<SearchEventByUser> {
             SilverAppbar(
               appBarKey: keyProfile,
               title: 'Search User',
+              isEventDetail: false,
             ),
           ];
         },
@@ -112,7 +113,6 @@ class _SearchEventByUserState extends State<SearchEventByUser> {
                             width: MediaQuery.of(context).size.width / 1.5,
                             child: TextField(
                               autofillHints: const [AutofillHints.givenName],
-                              // onSubmitted: (value) => _searchUserByname,
                               onEditingComplete: showSearchresults,
                               controller: _searchTextController,
                               decoration: const InputDecoration(

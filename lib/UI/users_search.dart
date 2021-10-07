@@ -23,6 +23,7 @@ class UsersSearch extends StatelessWidget {
               SilverAppbar(
                 appBarKey: keyUserSearch,
                 title: 'Search Users',
+                isEventDetail: false,
               ),
             ];
           },

@@ -43,7 +43,8 @@ class _EventsDetailsState extends State<EventsDetails> {
           return <Widget>[
             SilverAppbar(
               appBarKey: keyProfile,
-              title: 'Profile',
+              title: 'Event',
+              isEventDetail: false,
             ),
           ];
         },

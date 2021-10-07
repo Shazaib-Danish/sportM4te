@@ -12,6 +12,8 @@ class DataManager extends ChangeNotifier {
   String isLoginDone = '';
   bool isDarkMode = false;
   String userToken = '';
+  String userName = '';
+  int? userID;
   late Future<Users> searchUsersList;
   late UserModel userData;
   late UserMyEvents userMyEvents;
@@ -60,6 +62,14 @@ class DataManager extends ChangeNotifier {
 
   void setUserToken(String token) {
     userToken = token;
+  }
+
+  void setUserName(String token) {
+    userName = token;
+  }
+
+  void setUserID(int token) {
+    userID = token;
   }
 
   String get getUserToken {

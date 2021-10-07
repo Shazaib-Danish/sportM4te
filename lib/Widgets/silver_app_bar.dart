@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 class SilverAppbar extends StatelessWidget {
-  const SilverAppbar({Key? key, required this.appBarKey, required this.title})
+  const SilverAppbar(
+      {Key? key,
+      required this.appBarKey,
+      required this.title,
+      required this.isEventDetail})
       : super(key: key);
 
   final GlobalKey<ScaffoldState> appBarKey;
   final String title;
-
+  final bool isEventDetail;
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -42,6 +46,29 @@ class SilverAppbar extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
+                    // top > 71 && top < 91
+                    //     ? InkWell(
+                    //         child: const Icon(
+                    //           Icons.share,
+                    //           size: 20.0,
+                    //         ),
+                    //         onTap: () {
+                    //           appBarKey.currentState!.openDrawer();
+                    //         },
+                    //       )
+                    //     : InkWell(
+                    //         onTap: () {},
+                    //         child: Material(
+                    //             elevation: 5.0,
+                    //             borderRadius: BorderRadius.circular(12.0),
+                    //             child: const Padding(
+                    //               padding: EdgeInsets.all(6.0),
+                    //               child: Icon(
+                    //                 Icons.menu,
+                    //                 size: 15.0,
+                    //               ),
+                    //             )),
+                    //       ),
                     top > 71 && top < 91
                         ? const Icon(
                             Icons.nightlight_round,

@@ -44,6 +44,7 @@ dependencies:
   shared_preferences: any
   url_launcher: any
   
+  
  
  
  # flutter_user_agent: ^1.2.2

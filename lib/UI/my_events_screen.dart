@@ -41,6 +41,7 @@ class _MyEventsState extends State<MyEvents> {
               SilverAppbar(
                 appBarKey: keyProfile,
                 title: 'My Events',
+                isEventDetail: false,
               ),
             ];
           },
