@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import 'Theme/themes.dart';
 import 'UI/dashboard.dart';

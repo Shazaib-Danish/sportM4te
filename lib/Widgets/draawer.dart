@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
-import 'package:sportm4te/UI/dashboard.dart';
 import 'package:sportm4te/UI/profile_screen.dart';
 import 'package:sportm4te/UI/search_event_by_user.dart';
-import 'package:sportm4te/UI/users_search.dart';
 import 'package:sportm4te/Widgets/drawer_resuable_child.dart';
 import 'package:sportm4te/logout/logout.dart';
 
