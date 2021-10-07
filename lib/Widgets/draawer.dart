@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
+import 'package:sportm4te/UI/dashboard.dart';
 import 'package:sportm4te/UI/profile_screen.dart';
 import 'package:sportm4te/UI/search_event_by_user.dart';
 import 'package:sportm4te/UI/users_search.dart';
@@ -10,6 +11,13 @@ import 'package:sportm4te/logout/logout.dart';
 
 class Draawer extends StatelessWidget {
   const Draawer({Key? key}) : super(key: key);
+
+  // Future<bool> back(BuildContext context){
+  //   Navigator.pushReplacement(context, CupertinoPageRoute(
+  //     builder: (context)=> const Dashboard(),
+  //   ));
+  //   return Future.value(true);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +117,14 @@ class Draawer extends StatelessWidget {
                       CupertinoSwitch(
                         value: Provider.of<DataManager>(context).isLightMode,
                         onChanged: (value) {
-                          Provider.of<DataManager>(context, listen: false)
-                              .darkMode(value);
+                          final themeMode = Provider.of<DataManager>(context, listen: false).themeMode;
+                          // ignore: unrelated_type_equality_checks
+                          if(themeMode == ThemeMode.light){
+                            Provider.of<DataManager>(context, listen: false).changeTheme(value);
+                          }
+                          else{
+                            Provider.of<DataManager>(context, listen: false).changeTheme(value);
+                          }
                         },
                       )
                     ],
