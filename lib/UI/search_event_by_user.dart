@@ -41,6 +41,7 @@ class _SearchEventByUserState extends State<SearchEventByUser> {
 
   Future<UserSearchModel> refreshSearchresults() async {
     setState(() {
+      _searchTextController.text = '';
       _model = UserSearchAPIManager().showUser(
           Provider.of<DataManager>(context, listen: false).userToken, context);
     });

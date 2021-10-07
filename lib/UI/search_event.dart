@@ -21,6 +21,8 @@ class SearchEvent extends StatefulWidget {
 
 class _SearchEventState extends State<SearchEvent> {
   final GlobalKey<ScaffoldState> keyProfile = GlobalKey();
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
   final TextEditingController _searchTextController = TextEditingController();
   final TextEditingController _searchLocationController =
       TextEditingController();
@@ -36,6 +38,24 @@ class _SearchEventState extends State<SearchEvent> {
     false,
     false
   ];
+  Future<void> searchEvents() async {
+    setState(() {
+      _eventsModel = EventSearchAPIManager().searchEventsByName(
+          Provider.of<DataManager>(context, listen: false).getUserToken,
+          _searchTextController.text.toString(),
+          context);
+    });
+  }
+
+  Future<SearchEvents> refreshSearchresults() async {
+    setState(() {
+      _searchTextController.text = '';
+      _eventsModel = EventSearchAPIManager().searchEvents(
+          Provider.of<DataManager>(context, listen: false).getUserToken,
+          context);
+    });
+    return _eventsModel;
+  }
 
   @override
   void initState() {
@@ -55,411 +75,451 @@ class _SearchEventState extends State<SearchEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: keyProfile,
-      drawer: const Drawer(
-        child: Draawer(),
-      ),
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SilverAppbar(
-              appBarKey: keyProfile,
-              title: 'Search',
-              isEventDetail: false,
-            ),
-          ];
-        },
-        body: SingleChildScrollView(
-            child: FutureBuilder<SearchEvents>(
-                future: _eventsModel,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Container(
-                      color: Colors.grey.withOpacity(0.1),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.all(20),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey.withOpacity(0.1),
-                                      offset: const Offset(0, 0.5))
-                                ]),
-                            child: Row(
+        key: keyProfile,
+        drawer: const Drawer(
+          child: Draawer(),
+        ),
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SilverAppbar(
+                appBarKey: keyProfile,
+                title: 'Search Event',
+                isEventDetail: false,
+              ),
+            ];
+          },
+          body: RefreshIndicator(
+            key: _refreshIndicatorKey,
+            onRefresh: refreshSearchresults,
+            child: SingleChildScrollView(
+              child: Container(
+                  color: Colors.grey.withOpacity(0.1),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    offset: const Offset(0, 0.5))
+                              ]),
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const Icon(
+                                Icons.search,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 1.5,
+                                child: TextField(
+                                  autofillHints: const [
+                                    AutofillHints.addressCityAndState
+                                  ],
+                                  onEditingComplete: searchEvents,
+                                  controller: _searchTextController,
+                                  decoration: const InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Searching for something..."),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.1),
+                                    offset: const Offset(0, 0.5))
+                              ]),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                const Icon(
-                                  Icons.search,
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.5,
-                                  child: TextField(
-                                    autofillHints: const [
-                                      AutofillHints.addressCityAndState
-                                    ],
-                                    onSubmitted: (value) =>
-                                        _searchTextController,
-                                    controller: _searchTextController,
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: "Searching for something..."),
+                                const Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Text(
+                                    "Filters",
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                              margin: const EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.grey.withOpacity(0.1),
-                                        offset: const Offset(0, 0.5))
-                                  ]),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.all(20.0),
-                                    child: Text(
-                                      "Filters",
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1.3,
-                                        margin: const EdgeInsets.only(
-                                            left: 20, bottom: 10),
-                                        child: ExpansionPanelList(
-                                          dividerColor: Colors.grey,
-                                          expansionCallback: (index, expanded) {
-                                            setState(() {
-                                              _expanded[index] = !expanded;
-                                            });
-                                          },
-                                          children: [
-                                            ExpansionPanel(
-                                                headerBuilder:
-                                                    (BuildContext context,
-                                                        bool isActive) {
-                                                  return const ListTile(
-                                                    leading: Icon(
-                                                      Icons.list,
-                                                      color: Colors.red,
-                                                    ),
-                                                    title: Text("Sports"),
-                                                  );
-                                                },
-                                                body: Column(
-                                                  children: [
-                                                    Container(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width /
-                                                              1.3,
-                                                      height: 50,
-                                                      margin:
-                                                          const EdgeInsets.only(
-                                                              left: 10,
-                                                              bottom: 20),
-                                                      child: ListView.builder(
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        shrinkWrap: true,
-                                                        itemCount:
-                                                            interset.length,
-                                                        itemBuilder:
-                                                            (context, index) =>
-                                                                InkWell(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              changeIndexCheckAll(
-                                                                  index);
-                                                            });
-                                                          },
-                                                          child: Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        10),
-                                                            margin:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        5),
-                                                            decoration: BoxDecoration(
-                                                                color: interset[index]
-                                                                            .isSelect ==
-                                                                        false
-                                                                    ? Colors.white
-                                                                    : Colors.green,
-                                                                borderRadius: const BorderRadius.all(Radius.circular(25)),
-                                                                boxShadow: [
-                                                                  BoxShadow(
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.3,
+                                      margin: const EdgeInsets.only(
+                                          left: 20, bottom: 10),
+                                      child: ExpansionPanelList(
+                                        dividerColor: Colors.grey,
+                                        expansionCallback: (index, expanded) {
+                                          setState(() {
+                                            _expanded[index] = !expanded;
+                                          });
+                                        },
+                                        children: [
+                                          ExpansionPanel(
+                                              headerBuilder:
+                                                  (BuildContext context,
+                                                      bool isActive) {
+                                                return const ListTile(
+                                                  leading: Icon(
+                                                    Icons.list,
+                                                    color: Colors.red,
+                                                  ),
+                                                  title: Text("Sports"),
+                                                );
+                                              },
+                                              body: Column(
+                                                children: [
+                                                  Container(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            1.3,
+                                                    height: 50,
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            left: 10,
+                                                            bottom: 20),
+                                                    child: ListView.builder(
+                                                      scrollDirection:
+                                                          Axis.horizontal,
+                                                      shrinkWrap: true,
+                                                      itemCount:
+                                                          interset.length,
+                                                      itemBuilder:
+                                                          (context, index) =>
+                                                              InkWell(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            changeIndexCheckAll(
+                                                                index);
+                                                          });
+                                                        },
+                                                        child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      10),
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  horizontal:
+                                                                      5),
+                                                          decoration: BoxDecoration(
+                                                              color: interset[index]
+                                                                          .isSelect ==
+                                                                      false
+                                                                  ? Colors.white
+                                                                  : Colors.green,
+                                                              borderRadius: const BorderRadius.all(Radius.circular(25)),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    color: Colors
+                                                                        .grey
+                                                                        .withOpacity(
+                                                                            0.1),
+                                                                    offset:
+                                                                        const Offset(
+                                                                            1,
+                                                                            4))
+                                                              ]),
+                                                          child: interset[index]
+                                                                      .isSelect ==
+                                                                  false
+                                                              ? Row(
+                                                                  children: [
+                                                                    Text(interset[
+                                                                            index]
+                                                                        .icon),
+                                                                    const SizedBox(
+                                                                      width: 5,
+                                                                    ),
+                                                                    Text(interset[
+                                                                            index]
+                                                                        .title),
+                                                                  ],
+                                                                )
+                                                              : Row(
+                                                                  children: [
+                                                                    const Icon(
+                                                                      Icons
+                                                                          .check_circle,
                                                                       color: Colors
-                                                                          .grey
-                                                                          .withOpacity(
-                                                                              0.1),
-                                                                      offset:
-                                                                          const Offset(
-                                                                              1,
-                                                                              4))
-                                                                ]),
-                                                            child: interset[index]
-                                                                        .isSelect ==
-                                                                    false
-                                                                ? Row(
-                                                                    children: [
-                                                                      Text(interset[
+                                                                          .white,
+                                                                    ),
+                                                                    const SizedBox(
+                                                                      width: 5,
+                                                                    ),
+                                                                    Text(
+                                                                      interset[
                                                                               index]
-                                                                          .icon),
-                                                                      const SizedBox(
-                                                                        width:
-                                                                            5,
-                                                                      ),
-                                                                      Text(interset[
-                                                                              index]
-                                                                          .title),
-                                                                    ],
-                                                                  )
-                                                                : Row(
-                                                                    children: [
-                                                                      const Icon(
-                                                                        Icons
-                                                                            .check_circle,
-                                                                        color: Colors
-                                                                            .white,
-                                                                      ),
-                                                                      const SizedBox(
-                                                                        width:
-                                                                            5,
-                                                                      ),
-                                                                      Text(
-                                                                        interset[index]
-                                                                            .title,
-                                                                        style: const TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontWeight: FontWeight.bold),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                          ),
+                                                                          .title,
+                                                                      style: const TextStyle(
+                                                                          color: Colors
+                                                                              .white,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                         ),
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
-                                                isExpanded: _expanded[0]),
-                                            ExpansionPanel(
-                                                headerBuilder:
-                                                    (BuildContext context,
-                                                        bool isActive) {
-                                                  return const ListTile(
-                                                    leading: Icon(
-                                                      Icons.date_range_outlined,
-                                                      color: Colors.blue,
+                                                  ),
+                                                ],
+                                              ),
+                                              isExpanded: _expanded[0]),
+                                          ExpansionPanel(
+                                              headerBuilder:
+                                                  (BuildContext context,
+                                                      bool isActive) {
+                                                return const ListTile(
+                                                  leading: Icon(
+                                                    Icons.date_range_outlined,
+                                                    color: Colors.blue,
+                                                  ),
+                                                  title: Text("Dates"),
+                                                );
+                                              },
+                                              body: Column(
+                                                children: [
+                                                  ListTile(
+                                                    title: const Text("Today"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[0],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[0] =
+                                                              value!;
+                                                        });
+                                                      },
                                                     ),
-                                                    title: Text("Dates"),
-                                                  );
-                                                },
-                                                body: Column(
-                                                  children: [
-                                                    ListTile(
-                                                      title:
-                                                          const Text("Today"),
-                                                      trailing: Checkbox(
-                                                        value: _eventDate[0],
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            _eventDate[0] =
-                                                                value!;
-                                                          });
-                                                        },
-                                                      ),
+                                                  ),
+                                                  ListTile(
+                                                    title:
+                                                        const Text("Tommorow"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[1],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[1] =
+                                                              value!;
+                                                        });
+                                                      },
                                                     ),
-                                                    ListTile(
-                                                      title: const Text(
-                                                          "Tommorow"),
-                                                      trailing: Checkbox(
-                                                        value: _eventDate[1],
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            _eventDate[1] =
-                                                                value!;
-                                                          });
-                                                        },
-                                                      ),
+                                                  ),
+                                                  ListTile(
+                                                    title:
+                                                        const Text("This Week"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[2],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[2] =
+                                                              value!;
+                                                        });
+                                                      },
                                                     ),
-                                                    ListTile(
-                                                      title: const Text(
-                                                          "This Week"),
-                                                      trailing: Checkbox(
-                                                        value: _eventDate[2],
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            _eventDate[2] =
-                                                                value!;
-                                                          });
-                                                        },
-                                                      ),
+                                                  ),
+                                                  ListTile(
+                                                    title: const Text(
+                                                        "This Weekend"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[3],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[3] =
+                                                              value!;
+                                                        });
+                                                      },
                                                     ),
-                                                    ListTile(
-                                                      title: const Text(
-                                                          "This Weekend"),
-                                                      trailing: Checkbox(
-                                                        value: _eventDate[3],
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            _eventDate[3] =
-                                                                value!;
-                                                          });
-                                                        },
-                                                      ),
+                                                  ),
+                                                  ListTile(
+                                                    title:
+                                                        const Text("Next Week"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[4],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[4] =
+                                                              value!;
+                                                        });
+                                                      },
                                                     ),
-                                                    ListTile(
-                                                      title: const Text(
-                                                          "Next Week"),
-                                                      trailing: Checkbox(
-                                                        value: _eventDate[4],
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            _eventDate[4] =
-                                                                value!;
-                                                          });
-                                                        },
-                                                      ),
+                                                  ),
+                                                  ListTile(
+                                                    title: const Text(
+                                                        "Next Weekend"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[5],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[5] =
+                                                              value!;
+                                                        });
+                                                      },
                                                     ),
-                                                    ListTile(
-                                                      title: const Text(
-                                                          "Next Weekend"),
-                                                      trailing: Checkbox(
-                                                        value: _eventDate[5],
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            _eventDate[5] =
-                                                                value!;
-                                                          });
-                                                        },
-                                                      ),
+                                                  ),
+                                                  ListTile(
+                                                    title: const Text(
+                                                        "In The Month"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[6],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[6] =
+                                                              value!;
+                                                        });
+                                                      },
                                                     ),
-                                                    ListTile(
-                                                      title: const Text(
-                                                          "In The Month"),
-                                                      trailing: Checkbox(
-                                                        value: _eventDate[6],
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            _eventDate[6] =
-                                                                value!;
-                                                          });
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                isExpanded: _expanded[1]),
-                                            ExpansionPanel(
-                                                headerBuilder:
-                                                    (BuildContext context,
-                                                        bool isActive) {
-                                                  return const ListTile(
-                                                    leading: Icon(
-                                                      Icons.location_on,
-                                                      color: Colors.green,
-                                                    ),
-                                                    title: Text("Location"),
-                                                  );
-                                                },
-                                                body: TextField(
-                                                  controller:
-                                                      _searchLocationController,
-                                                  decoration: const InputDecoration(
-                                                      border:
-                                                          OutlineInputBorder(),
-                                                      hintText:
-                                                          "Searching Location..."),
-                                                ),
-                                                isExpanded: _expanded[2])
-                                          ],
+                                                  ),
+                                                ],
+                                              ),
+                                              isExpanded: _expanded[1]),
+                                          ExpansionPanel(
+                                              headerBuilder:
+                                                  (BuildContext context,
+                                                      bool isActive) {
+                                                return const ListTile(
+                                                  leading: Icon(
+                                                    Icons.location_on,
+                                                    color: Colors.green,
+                                                  ),
+                                                  title: Text("Location"),
+                                                );
+                                              },
+                                              body: TextField(
+                                                controller:
+                                                    _searchLocationController,
+                                                decoration: const InputDecoration(
+                                                    border:
+                                                        OutlineInputBorder(),
+                                                    hintText:
+                                                        "Searching Location..."),
+                                              ),
+                                              isExpanded: _expanded[2])
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                              ]),
+                        ),
+                        FutureBuilder<SearchEvents>(
+                            future: _eventsModel,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Column(
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 10),
+                                      child: Row(
+                                        children: const [
+                                          SizedBox(
+                                            width: 20,
+                                          ),
+                                          Icon(
+                                            Icons.push_pin_sharp,
+                                            color: Colors.black,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            " Your sports",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          1.1,
+                                      child: ListView.builder(
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount:
+                                            snapshot.data!.user.sports.total,
+                                        itemBuilder: (context, index) =>
+                                            BottomContainerOfEvents(
+                                          img: snapshot.data!.user.sports
+                                              .list[index].sport.image,
+                                          nOfEvents: '0 Upcoming',
+                                          title: snapshot.data!.user.sports
+                                              .list[index].sport.name,
                                         ),
                                       ),
+                                    )
+                                  ],
+                                );
+                              } else {
+                                return Container(
+                                  margin: const EdgeInsets.all(20),
+                                  padding: const EdgeInsets.all(20),
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey.withOpacity(0.1),
+                                            offset: const Offset(0, 0.5))
+                                      ]),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("We didn't find any results",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline6),
+                                      Text(
+                                          "Make sure everything is spelled correctly",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .caption),
+                                      Text("or try different keywords.",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .caption),
                                     ],
                                   ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 10),
-                                    child: Row(
-                                      children: const [
-                                        Icon(
-                                          Icons.push_pin_sharp,
-                                          color: Colors.black,
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          " Your sports",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: snapshot.data!.user.sports.total,
-                                    itemBuilder: (context, index) =>
-                                        BottomContainerOfEvents(
-                                      img: snapshot.data!.user.sports
-                                          .list[index].sport.image,
-                                      nOfEvents: '0 Upcoming',
-                                      title: snapshot.data!.user.sports
-                                          .list[index].sport.name,
-                                    ),
-                                  ),
-                                ],
-                              ))
-                        ],
-                      ),
-                    );
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                })),
-      ),
-    );
+                                );
+                              }
+                            }),
+                      ])),
+            ),
+          ),
+        ));
   }
 
   void changeIndexCheckAll(int index) {

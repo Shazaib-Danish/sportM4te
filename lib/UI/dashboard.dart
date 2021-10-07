@@ -53,7 +53,6 @@ class _DashboardState extends State<Dashboard> {
       bottomNavigationBar: BottomNavBar(
         scaffoldKey: keyDashboard,
         onTap: (index) {
-          print(index);
           setState(() {
             _selectedIndex = index;
           });
