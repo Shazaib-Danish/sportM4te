@@ -28,14 +28,11 @@ class MyApp extends StatelessWidget {
       create: (_) {
         return DataManager();
       },
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: isLogedIn
-            ? Login()
-            : const Dashboard(
-                isLogedIn: true,
-              ),
-      ),
+      child: MaterialApp(debugShowCheckedModeBanner: false, home: Login()
+          // : const Dashboard(
+          //     isLogedIn: true,
+          //   ),
+          ),
     );
   }
 }

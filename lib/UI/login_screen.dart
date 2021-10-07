@@ -142,13 +142,16 @@ class Login extends StatelessWidget {
                               'userToken', loginData.token);
                           loginPreferences.setString(
                               'userName', loginData.user.username);
-                          loginPreferences.setInt(
-                              'userName', loginData.user.id);
+                          loginPreferences.setString(
+                              'userImage', loginData.user.image);
+                          loginPreferences.setInt('userID', loginData.user.id);
                           loginPreferences.setBool('isLogedIn', false);
                           Provider.of<DataManager>(context, listen: false)
                               .setUserToken(loginData.token);
                           Provider.of<DataManager>(context, listen: false)
                               .setUserName(loginData.user.username);
+                          Provider.of<DataManager>(context, listen: false)
+                              .setUserImage(loginData.user.image);
                           Provider.of<DataManager>(context, listen: false)
                               .setUserID(loginData.user.id);
                           Navigator.push(

@@ -13,6 +13,7 @@ class DataManager extends ChangeNotifier {
   bool isDarkMode = false;
   String userToken = '';
   String userName = '';
+  String userImage = '';
   int? userID;
   late Future<Users> searchUsersList;
   late UserModel userData;
@@ -66,6 +67,10 @@ class DataManager extends ChangeNotifier {
 
   void setUserName(String token) {
     userName = token;
+  }
+
+  void setUserImage(String token) {
+    userImage = token;
   }
 
   void setUserID(int token) {

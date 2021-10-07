@@ -1,11 +1,14 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sportm4te/API%20Manager/api_block.dart';
 import 'package:sportm4te/API%20Manager/api_send_frnd_reqst.dart';
 import 'package:sportm4te/API%20Manager/user_show_profile_api_manager.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
-import 'package:sportm4te/Models/friend_request_model.dart';
+
 import 'package:sportm4te/Models/show_user_profile.dart';
 import 'package:sportm4te/UI/dashboard.dart';
 import 'package:sportm4te/Widgets/draawer.dart';
@@ -26,6 +29,11 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
   late Future<ShowUserProfile> _eventsModel;
   final List<bool> selectedStar = [true, true, true, true, true];
   TextEditingController _review = TextEditingController();
+  late SharedPreferences loginPreferences;
+  String? userName;
+  String? userImage;
+  int? userId;
+
   var month = [
     "January",
     "February",
@@ -40,8 +48,17 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
     "November",
     "December"
   ];
+  intializeShared() async {
+    loginPreferences = await SharedPreferences.getInstance();
+    userName = loginPreferences.getString('userName');
+    userImage = loginPreferences.getString('userImage');
+    userId = loginPreferences.getInt('userID');
+  }
+
   @override
   void initState() {
+    intializeShared();
+
     _eventsModel = ShowProfileUserApiManager().getUserDetailsByName(
         widget.userName,
         Provider.of<DataManager>(context, listen: false).getUserToken,
@@ -120,13 +137,9 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                   .textTheme
                                                   .headline6,
                                             ),
-                                            if (Provider.of<DataManager>(
-                                                        context,
-                                                        listen: false)
-                                                    .userName
-                                                    .toLowerCase() !=
+                                            if (userName!.toLowerCase() !=
                                                 widget.userName.toLowerCase())
-                                              Row(children: [
+                                              Column(children: [
                                                 IconButton(
                                                   splashColor: Colors.green,
                                                   onPressed: () async {
@@ -137,11 +150,7 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                                     listen:
                                                                         false)
                                                                 .userToken,
-                                                            Provider.of<DataManager>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .userID!,
+                                                            userId!,
                                                             context)
                                                         .whenComplete(() {
                                                       final request = Provider
@@ -192,11 +201,8 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                                       listen:
                                                                           false)
                                                                   .userToken,
-                                                              Provider.of<DataManager>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .userName,
+                                                              data.data!.user
+                                                                  .username,
                                                               context)
                                                           .whenComplete(() {
                                                         final request = Provider
@@ -206,13 +212,13 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                                         false)
                                                             .blockFriend;
                                                         if (request.message ==
-                                                            'User has been unblocked') {
+                                                            'User has been blocked') {
                                                           showTopSnackBar(
                                                               context,
                                                               const CustomSnackBar
                                                                   .success(
                                                                 message:
-                                                                    "User has been unblocked",
+                                                                    "User has been blocked",
                                                               ));
                                                           Navigator.push(
                                                               context,
@@ -260,11 +266,7 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                   ),
                                                 ),
                                               ]),
-                                            if (Provider.of<DataManager>(
-                                                        context,
-                                                        listen: false)
-                                                    .userName
-                                                    .toLowerCase() ==
+                                            if (userName!.toLowerCase() ==
                                                 widget.userName.toLowerCase())
                                               Row(
                                                 crossAxisAlignment:
@@ -394,12 +396,7 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                           height: 150,
                                           child: MyWidget(
                                               eventsModel: _eventsModel)),
-                                    if (Provider.of<DataManager>(context,
-                                                listen: false)
-                                            .userData
-                                            .user
-                                            .username
-                                            .toLowerCase() !=
+                                    if (userName!.toLowerCase() !=
                                         widget.userName.toLowerCase())
                                       Container(
                                         height: 350,
@@ -442,21 +439,12 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                   ]),
                                               child: CircleAvatar(
                                                 radius: 50,
-                                                backgroundImage: NetworkImage(
-                                                    Provider.of<DataManager>(
-                                                            context,
-                                                            listen: false)
-                                                        .userData
-                                                        .user
-                                                        .image),
+                                                backgroundImage:
+                                                    NetworkImage(userImage!),
                                               ),
                                             ),
                                             Text(
-                                              Provider.of<DataManager>(context,
-                                                      listen: false)
-                                                  .userData
-                                                  .user
-                                                  .username,
+                                              userName!,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headline6,
@@ -659,8 +647,18 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                     ),
                                   ]));
                         } else {
-                          return const Center(
-                            child: CircularProgressIndicator(),
+                          return Column(
+                            children: const [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ],
                           );
                         }
                       }),
