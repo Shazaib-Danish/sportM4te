@@ -4,10 +4,11 @@ import 'package:sportm4te/UI/login_screen.dart';
 
 Future<void> logoutUser(BuildContext context) async {
   SharedPreferences loginPreferences = await SharedPreferences.getInstance();
-  loginPreferences.clear().whenComplete(() {
+  loginPreferences.setBool('isLogedIn', true);
+  loginPreferences.remove('userToken').whenComplete(() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => Login()),
-        (Route<dynamic> route) => false);
+            (Route<dynamic> route) => false);
   });
 }
 
