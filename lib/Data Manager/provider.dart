@@ -22,6 +22,13 @@ class DataManager extends ChangeNotifier {
   late UnesendRequest unesendRequest;
   late BlockFriend blockFriend;
   late Review review;
+  ThemeMode themeMode = ThemeMode.light;
+
+  void changeTheme(bool isChanged) {
+    themeMode = isChanged ? ThemeMode.dark : ThemeMode.light;
+    isDarkMode = isChanged;
+    notifyListeners();
+  }
 
   void unSentRequest(UnesendRequest userModel) {
     unesendRequest = userModel;
