@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sportm4te/API%20Manager/login_api_manager.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
+import 'package:sportm4te/UI/register.dart';
 import 'package:sportm4te/Widgets/reusable_material_button.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
@@ -182,7 +183,11 @@ class Login extends StatelessWidget {
                       ),
                       const Spacer(),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, CupertinoPageRoute(
+                            builder: (context)=> Register(),
+                          ));
+                        },
                         child: const Text(
                           'Create Account',
                           style: TextStyle(color: Colors.grey),
