@@ -1,8 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sportm4te/UI/my_events_screen.dart';
-import 'package:sportm4te/UI/search_event.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar(
@@ -28,8 +26,8 @@ class BottomNavBar extends StatelessWidget {
         Icon(CupertinoIcons.sportscourt, size: 30),
         Icon(Icons.menu, size: 30),
       ],
-      color: Colors.white,
-      buttonBackgroundColor: Colors.white,
+      color: Theme.of(context).primaryColor,
+      buttonBackgroundColor: Theme.of(context).primaryColor,
       backgroundColor: Colors.green,
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 600),

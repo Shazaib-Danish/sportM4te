@@ -51,7 +51,7 @@ class _MyEventsState extends State<MyEvents> {
                 child: Container(
                   margin: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: const [
                         BoxShadow(
@@ -156,7 +156,6 @@ class _MyWidgetState extends State<MyWidget> {
                           child: Text(
                             "Hosted Events",
                             style: TextStyle(
-                                color: Colors.black,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold),
                           ),
@@ -242,13 +241,11 @@ class ListViewOfEventsHosting extends StatelessWidget {
                             Text(
                               data[index].event,
                               style: const TextStyle(
-                                  color: Colors.black,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
                               data[index].dates.oneline,
                               style: const TextStyle(
-                                  color: Colors.green,
                                   fontWeight: FontWeight.bold),
                             ),
                             Row(

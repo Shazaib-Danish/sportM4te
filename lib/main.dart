@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
+import 'Theme/themes.dart';
 import 'UI/dashboard.dart';
 import 'UI/login_screen.dart';
 import 'package:provider/provider.dart';
@@ -25,17 +25,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) {
+      create: (context) {
         return DataManager();
       },
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: isLogedIn
-            ? Login()
-            : const Dashboard(
-                isLogedIn: true,
-              ),
-      ),
+      builder: (context , child){
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          themeMode: Provider.of<DataManager>(context).themeMode,
+          theme: MyThemes.lightTheme,
+          darkTheme: MyThemes.darkTheme,
+          home: isLogedIn
+              ? Login()
+              : const Dashboard(
+            isLogedIn: true,
+          ),
+        );
+      },
     );
   }
 }

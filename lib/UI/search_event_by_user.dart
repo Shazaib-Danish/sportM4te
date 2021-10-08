@@ -390,30 +390,33 @@ class _SearchEventByUserState extends State<SearchEventByUser> {
                                                     context),
                                             builder: (context, data2) {
                                               if (data2.hasData) {
-                                                return SizedBox(
-                                                  height: 20,
-                                                  width: 120,
-                                                  child: data2.data!.reviews
-                                                          .received.isNotEmpty
-                                                      ? ListView.builder(
-                                                          scrollDirection:
-                                                              Axis.horizontal,
-                                                          physics:
-                                                              const NeverScrollableScrollPhysics(),
-                                                          itemCount: data2
-                                                              .data!
-                                                              .reviews
-                                                              .received[0]
-                                                              .stars,
-                                                          itemBuilder: (context,
-                                                                  index2) =>
-                                                              Icon(
-                                                            Icons.star,
-                                                            color: Colors.yellow
-                                                                .shade700,
-                                                          ),
-                                                        )
-                                                      : Container(),
+                                                return Center(
+                                                  child: SizedBox(
+                                                    height: 20,
+                                                    width: 120,
+                                                    child: data2.data!.reviews
+                                                            .received.isNotEmpty
+                                                        ? ListView.builder(
+                                                            scrollDirection:
+                                                                Axis.horizontal,
+                                                            physics:
+                                                                const NeverScrollableScrollPhysics(),
+                                                            itemCount: data2
+                                                                .data!
+                                                                .reviews
+                                                                .received[0]
+                                                                .stars,
+                                                            itemBuilder: (context,
+                                                                    index2) =>
+                                                                Icon(
+                                                              Icons.star,
+                                                              color: Colors
+                                                                  .yellow
+                                                                  .shade700,
+                                                            ),
+                                                          )
+                                                        : Container(),
+                                                  ),
                                                 );
                                               } else {
                                                 return Container();

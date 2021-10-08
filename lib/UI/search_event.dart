@@ -75,6 +75,7 @@ class _SearchEventState extends State<SearchEvent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
         key: keyProfile,
         drawer: const Drawer(
           child: Draawer(),
@@ -96,12 +97,37 @@ class _SearchEventState extends State<SearchEvent> {
               child: Container(
                   color: Colors.grey.withOpacity(0.1),
                   child: Column(
+=======
+      key: keyProfile,
+      drawer: const Drawer(
+        child: Draawer(),
+      ),
+      body: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SilverAppbar(
+              appBarKey: keyProfile,
+              title: 'Search',
+              isEventDetail: false,
+            ),
+          ];
+        },
+        body: SingleChildScrollView(
+            child: FutureBuilder<SearchEvents>(
+                future: _eventsModel,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+>>>>>>> 14c31b76c26f3565eb8cd82b2ece894f5136ed96
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           margin: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
+<<<<<<< HEAD
                               color: Colors.white,
+=======
+>>>>>>> 14c31b76c26f3565eb8cd82b2ece894f5136ed96
                               borderRadius: BorderRadius.circular(10),
                               boxShadow: [
                                 BoxShadow(
@@ -120,16 +146,27 @@ class _SearchEventState extends State<SearchEvent> {
                                 width: 10,
                               ),
                               SizedBox(
+<<<<<<< HEAD
                                 width: MediaQuery.of(context).size.width / 1.5,
+=======
+                                width:
+                                    MediaQuery.of(context).size.width / 1.5,
+>>>>>>> 14c31b76c26f3565eb8cd82b2ece894f5136ed96
                                 child: TextField(
                                   autofillHints: const [
                                     AutofillHints.addressCityAndState
                                   ],
+<<<<<<< HEAD
                                   onEditingComplete: searchEvents,
+=======
+                                  onSubmitted: (value) =>
+                                      _searchTextController,
+>>>>>>> 14c31b76c26f3565eb8cd82b2ece894f5136ed96
                                   controller: _searchTextController,
                                   decoration: const InputDecoration(
                                       border: InputBorder.none,
                                       hintText: "Searching for something..."),
+<<<<<<< HEAD
                                 ),
                               ),
                             ],
@@ -166,6 +203,43 @@ class _SearchEventState extends State<SearchEvent> {
                                     Container(
                                       width: MediaQuery.of(context).size.width /
                                           1.3,
+=======
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                            margin: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey.withOpacity(0.1),
+                                      offset: const Offset(0, 0.5))
+                                ]),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Text(
+                                    "Filters",
+                                    style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width /
+                                              1.3,
+>>>>>>> 14c31b76c26f3565eb8cd82b2ece894f5136ed96
                                       margin: const EdgeInsets.only(
                                           left: 20, bottom: 10),
                                       child: ExpansionPanelList(
@@ -254,7 +328,12 @@ class _SearchEventState extends State<SearchEvent> {
                                                                             index]
                                                                         .icon),
                                                                     const SizedBox(
+<<<<<<< HEAD
                                                                       width: 5,
+=======
+                                                                      width:
+                                                                          5,
+>>>>>>> 14c31b76c26f3565eb8cd82b2ece894f5136ed96
                                                                     ),
                                                                     Text(interset[
                                                                             index]
@@ -281,11 +360,22 @@ class _SearchEventState extends State<SearchEvent> {
                                                                               .white,
                                                                           fontWeight:
                                                                               FontWeight.bold),
+                                                                      width:
+                                                                          5,
+                                                                    ),
+                                                                    Text(
+                                                                      interset[index]
+                                                                          .title,
+                                                                      style: const TextStyle(
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontWeight: FontWeight.bold),
                                                                     ),
                                                                   ],
                                                                 ),
                                                         ),
                                                       ),
+<<<<<<< HEAD
                                                     ),
                                                   ),
                                                 ],
@@ -338,6 +428,79 @@ class _SearchEventState extends State<SearchEvent> {
                                                       onChanged: (value) {
                                                         setState(() {
                                                           _eventDate[2] =
+=======
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              isExpanded: _expanded[0]),
+                                          ExpansionPanel(
+                                              headerBuilder:
+                                                  (BuildContext context,
+                                                      bool isActive) {
+                                                return const ListTile(
+                                                  leading: Icon(
+                                                    Icons.date_range_outlined,
+                                                    color: Colors.blue,
+                                                  ),
+                                                  title: Text("Dates"),
+                                                );
+                                              },
+                                              body: Column(
+                                                children: [
+                                                  ListTile(
+                                                    title:
+                                                        const Text("Today"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[0],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[0] =
+>>>>>>> 14c31b76c26f3565eb8cd82b2ece894f5136ed96
+                                                              value!;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  ListTile(
+                                                    title: const Text(
+<<<<<<< HEAD
+                                                        "This Weekend"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[3],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[3] =
+=======
+                                                        "Tommorow"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[1],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[1] =
+>>>>>>> 14c31b76c26f3565eb8cd82b2ece894f5136ed96
+                                                              value!;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  ListTile(
+<<<<<<< HEAD
+                                                    title:
+                                                        const Text("Next Week"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[4],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[4] =
+=======
+                                                    title: const Text(
+                                                        "This Week"),
+                                                    trailing: Checkbox(
+                                                      value: _eventDate[2],
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          _eventDate[2] =
                                                               value!;
                                                         });
                                                       },
@@ -351,14 +514,17 @@ class _SearchEventState extends State<SearchEvent> {
                                                       onChanged: (value) {
                                                         setState(() {
                                                           _eventDate[3] =
+>>>>>>> 14c31b76c26f3565eb8cd82b2ece894f5136ed96
                                                               value!;
                                                         });
                                                       },
                                                     ),
                                                   ),
                                                   ListTile(
-                                                    title:
-                                                        const Text("Next Week"),
+                                                    title: const Text(
+<<<<<<< HEAD
+=======
+                                                        "Next Week"),
                                                     trailing: Checkbox(
                                                       value: _eventDate[4],
                                                       onChanged: (value) {
@@ -371,6 +537,7 @@ class _SearchEventState extends State<SearchEvent> {
                                                   ),
                                                   ListTile(
                                                     title: const Text(
+>>>>>>> 14c31b76c26f3565eb8cd82b2ece894f5136ed96
                                                         "Next Weekend"),
                                                     trailing: Checkbox(
                                                       value: _eventDate[5],
@@ -428,6 +595,7 @@ class _SearchEventState extends State<SearchEvent> {
                                 const SizedBox(
                                   height: 20,
                                 ),
+<<<<<<< HEAD
                               ]),
                         ),
                         FutureBuilder<SearchEvents>(
@@ -520,6 +688,53 @@ class _SearchEventState extends State<SearchEvent> {
             ),
           ),
         ));
+=======
+                                Container(
+                                  margin: const EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    children: const [
+                                      Icon(
+                                        Icons.push_pin_sharp,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        " Your sports",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  physics:
+                                      const NeverScrollableScrollPhysics(),
+                                  itemCount: snapshot.data!.user.sports.total,
+                                  itemBuilder: (context, index) =>
+                                      BottomContainerOfEvents(
+                                    img: snapshot.data!.user.sports
+                                        .list[index].sport.image,
+                                    nOfEvents: '0 Upcoming',
+                                    title: snapshot.data!.user.sports
+                                        .list[index].sport.name,
+                                  ),
+                                ),
+                              ],
+                            ))
+                      ],
+                    );
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                })),
+      ),
+    );
+>>>>>>> 14c31b76c26f3565eb8cd82b2ece894f5136ed96
   }
 
   void changeIndexCheckAll(int index) {
@@ -557,7 +772,7 @@ class BottomContainerOfEvents extends StatelessWidget {
         width: 300,
         margin: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-            color: Colors.white,
+          color: Theme.of(context).primaryColor,
             image: DecorationImage(image: NetworkImage(img), fit: BoxFit.fill),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [

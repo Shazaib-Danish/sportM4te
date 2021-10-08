@@ -1,6 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sportm4te/API%20Manager/login_api_manager.dart';
-import 'package:sportm4te/API%20Manager/user_show_profile_api_manager.dart';
 import 'package:sportm4te/Models/block_friend.dart';
 import 'package:sportm4te/Models/friend_request_model.dart';
 import 'package:sportm4te/Models/review_model.dart';
@@ -8,6 +6,7 @@ import 'package:sportm4te/Models/unsend_request.dart';
 import 'package:sportm4te/Models/user_model.dart';
 import 'package:sportm4te/Models/user_my_events.dart';
 import 'package:sportm4te/Models/user_search_model.dart';
+import 'package:flutter/material.dart';
 
 class DataManager extends ChangeNotifier {
   String isLoginDone = '';
@@ -38,11 +37,6 @@ class DataManager extends ChangeNotifier {
 
   void checkLogin(String loginCode) {
     isLoginDone = loginCode;
-    notifyListeners();
-  }
-
-  void darkMode(bool mode) {
-    isDarkMode = mode;
     notifyListeners();
   }
 
