@@ -482,7 +482,7 @@ class Received {
   int authorId;
   int userId;
   int stars;
-  String review;
+  String? review;
   DateTime createdAt;
   DateTime updatedAt;
   Author author;

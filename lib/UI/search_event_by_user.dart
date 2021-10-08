@@ -5,8 +5,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:sportm4te/API%20Manager/api_search_user.dart';
+import 'package:sportm4te/API%20Manager/user_show_profile_api_manager.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
 import 'package:sportm4te/Models/interset.dart';
+import 'package:sportm4te/Models/show_user_profile.dart';
 import 'package:sportm4te/Models/user_search_model.dart';
 import 'package:sportm4te/UI/show_user_profile_ui.dart';
 import 'package:sportm4te/Widgets/draawer.dart';
@@ -376,17 +378,47 @@ class _SearchEventByUserState extends State<SearchEventByUser> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Icon(
-                                                Icons.star,
-                                                color: Colors.yellow.shade700,
-                                                size: 20,
-                                              ),
-                                            )
-                                          ],
-                                        ),
+                                        FutureBuilder<ShowUserProfile>(
+                                            future: ShowProfileUserApiManager()
+                                                .getUserDetailsByName(
+                                                    data.data!.users.data[index]
+                                                        .username,
+                                                    Provider.of<DataManager>(
+                                                            context,
+                                                            listen: false)
+                                                        .getUserToken,
+                                                    context),
+                                            builder: (context, data2) {
+                                              if (data2.hasData) {
+                                                return SizedBox(
+                                                  height: 20,
+                                                  width: 120,
+                                                  child: data2.data!.reviews
+                                                          .received.isNotEmpty
+                                                      ? ListView.builder(
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          physics:
+                                                              const NeverScrollableScrollPhysics(),
+                                                          itemCount: data2
+                                                              .data!
+                                                              .reviews
+                                                              .received[0]
+                                                              .stars,
+                                                          itemBuilder: (context,
+                                                                  index2) =>
+                                                              Icon(
+                                                            Icons.star,
+                                                            color: Colors.yellow
+                                                                .shade700,
+                                                          ),
+                                                        )
+                                                      : Container(),
+                                                );
+                                              } else {
+                                                return Container();
+                                              }
+                                            }),
                                         const SizedBox(
                                           height: 10,
                                         ),

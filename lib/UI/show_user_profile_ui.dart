@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sportm4te/API%20Manager/api_block.dart';
+import 'package:sportm4te/API%20Manager/api_review.dart';
 import 'package:sportm4te/API%20Manager/api_send_frnd_reqst.dart';
 import 'package:sportm4te/API%20Manager/user_show_profile_api_manager.dart';
 import 'package:sportm4te/Data%20Manager/provider.dart';
@@ -15,6 +16,7 @@ import 'package:sportm4te/Widgets/draawer.dart';
 import 'package:sportm4te/Widgets/silver_app_bar.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ShowUserProfileUI extends StatefulWidget {
   const ShowUserProfileUI({Key? key, required this.userName}) : super(key: key);
@@ -58,7 +60,7 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
   @override
   void initState() {
     intializeShared();
-
+    _review = TextEditingController();
     _eventsModel = ShowProfileUserApiManager().getUserDetailsByName(
         widget.userName,
         Provider.of<DataManager>(context, listen: false).getUserToken,
@@ -139,7 +141,7 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                             ),
                                             if (userName!.toLowerCase() !=
                                                 widget.userName.toLowerCase())
-                                              Column(children: [
+                                              Row(children: [
                                                 IconButton(
                                                   splashColor: Colors.green,
                                                   onPressed: () async {
@@ -188,7 +190,19 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                     Icons.block,
                                                     color: Colors.red,
                                                   ),
-                                                  iconSize: 20,
+                                                  items: <String>[
+                                                    'Block',
+                                                    'Report'
+                                                  ].map<
+                                                          DropdownMenuItem<
+                                                              String>>(
+                                                      (String value) {
+                                                    return DropdownMenuItem<
+                                                        String>(
+                                                      value: value,
+                                                      child: Text(value),
+                                                    );
+                                                  }).toList(),
                                                   style: const TextStyle(
                                                       color: Colors.black),
                                                   onChanged:
@@ -212,7 +226,7 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                                         false)
                                                             .blockFriend;
                                                         if (request.message ==
-                                                            'User has been blocked') {
+                                                            'User has been blocked;') {
                                                           showTopSnackBar(
                                                               context,
                                                               const CustomSnackBar
@@ -220,12 +234,14 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                                 message:
                                                                     "User has been blocked",
                                                               ));
-                                                          Navigator.push(
-                                                              context,
-                                                              MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          const Dashboard()));
+                                                          Navigator.of(context)
+                                                              .pushAndRemoveUntil(
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (c) =>
+                                                                              const Dashboard()),
+                                                                  (route) =>
+                                                                      false);
                                                         } else {
                                                           showTopSnackBar(
                                                               context,
@@ -236,23 +252,15 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                               ));
                                                         }
                                                       });
+                                                    } else if (newValue ==
+                                                        'Report') {
+                                                      final name = data
+                                                          .data!.user.username;
+                                                      _launchURL(name);
                                                     } else {
                                                       setState(() {});
                                                     }
                                                   },
-                                                  items: <String>[
-                                                    'Block',
-                                                    'Report'
-                                                  ].map<
-                                                          DropdownMenuItem<
-                                                              String>>(
-                                                      (String value) {
-                                                    return DropdownMenuItem<
-                                                        String>(
-                                                      value: value,
-                                                      child: Text(value),
-                                                    );
-                                                  }).toList(),
                                                 ),
                                                 const SizedBox(
                                                   width: 10,
@@ -507,7 +515,40 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                               borderRadius:
                                                   BorderRadius.circular(15),
                                               child: MaterialButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  ReviewAPIManager().reviewFriend(
+                                                      Provider.of<DataManager>(
+                                                              context,
+                                                              listen: false)
+                                                          .getUserToken,
+                                                      getRating(),
+                                                      userId!,
+                                                      context);
+                                                  final rev =
+                                                      Provider.of<DataManager>(
+                                                              context,
+                                                              listen: false)
+                                                          .review;
+
+                                                  if (rev.message ==
+                                                      'Review has been saved!') {
+                                                    showTopSnackBar(
+                                                        context,
+                                                        const CustomSnackBar
+                                                            .success(
+                                                          message:
+                                                              "Review has been saved!",
+                                                        ));
+                                                  } else {
+                                                    showTopSnackBar(
+                                                        context,
+                                                        const CustomSnackBar
+                                                            .error(
+                                                          message:
+                                                              "Review has been not saved!",
+                                                        ));
+                                                  }
+                                                },
                                                 color: Colors.green,
                                                 child:
                                                     const Text("Save Review"),
@@ -634,8 +675,18 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
                                                 ],
                                               ),
                                               Text(
-                                                data.data!.reviews
-                                                    .received[index].review,
+                                                data
+                                                            .data!
+                                                            .reviews
+                                                            .received[index]
+                                                            .review ==
+                                                        null
+                                                    ? ''
+                                                    : data
+                                                        .data!
+                                                        .reviews
+                                                        .received[index]
+                                                        .review!,
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .subtitle1,
@@ -667,6 +718,29 @@ class _ShowUserProfileUIState extends State<ShowUserProfileUI> {
             ),
           ),
         ));
+  }
+
+  _launchURL(String name) async {
+    String url = 'https://sportm4te.com/report-user/?name=$name';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      showTopSnackBar(
+          context,
+          const CustomSnackBar.error(
+            message: "Failed to Report",
+          ));
+    }
+  }
+
+  double getRating() {
+    double rating = 0;
+    for (int i = 0; i < 4; i++) {
+      if (selectedStar[i] == true) {
+        rating++;
+      }
+    }
+    return rating;
   }
 }
 

@@ -3,6 +3,7 @@ import 'package:sportm4te/API%20Manager/login_api_manager.dart';
 import 'package:sportm4te/API%20Manager/user_show_profile_api_manager.dart';
 import 'package:sportm4te/Models/block_friend.dart';
 import 'package:sportm4te/Models/friend_request_model.dart';
+import 'package:sportm4te/Models/review_model.dart';
 import 'package:sportm4te/Models/unsend_request.dart';
 import 'package:sportm4te/Models/user_model.dart';
 import 'package:sportm4te/Models/user_my_events.dart';
@@ -21,6 +22,7 @@ class DataManager extends ChangeNotifier {
   late FriendRequestModel friendRequest;
   late UnesendRequest unesendRequest;
   late BlockFriend blockFriend;
+  late Review review;
 
   void unSentRequest(UnesendRequest userModel) {
     unesendRequest = userModel;
@@ -28,6 +30,10 @@ class DataManager extends ChangeNotifier {
 
   void blockFreind(BlockFriend userModel) {
     blockFriend = userModel;
+  }
+
+  void reviewRes(Review userModel) {
+    review = userModel;
   }
 
   void checkLogin(String loginCode) {
