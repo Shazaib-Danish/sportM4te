@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,8 +39,8 @@ class _DashboardState extends State<Dashboard> {
       loginPreferences = await SharedPreferences.getInstance();
       Provider.of<DataManager>(context, listen: false)
           .setUserToken(loginPreferences.getString('userToken').toString());
-      print('Here is token of user already logedin ' +
-          loginPreferences.getString('userToken').toString());
+      // print('Here is token of user already logedin ' +
+      //     loginPreferences.getString('userToken').toString());
     }
   }
 

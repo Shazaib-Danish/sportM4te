@@ -129,7 +129,7 @@ class _SearchEventState extends State<SearchEvent> {
                                   controller: _searchTextController,
                                   decoration: const InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: "Searching for something..."),
+                                      hintText: "Searching for something...?"),
                                 ),
                               ),
                             ],
