@@ -86,503 +86,491 @@ class _SearchEventByUserState extends State<SearchEventByUser> {
             key: _refreshIndicatorKey,
             onRefresh: refreshSearchresults,
             child: SingleChildScrollView(
-              child: Container(
-                color: Colors.grey.withOpacity(0.1),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.1),
+                              offset: const Offset(0, 0.5))
+                        ]),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        const Icon(
+                          Icons.search,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 1.5,
+                          child: TextField(
+                            autofillHints: const [AutofillHints.givenName],
+                            onEditingComplete: showSearchresults,
+                            controller: _searchTextController,
+                            decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Searching by username"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
                       margin: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                          color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.withOpacity(0.1),
                                 offset: const Offset(0, 0.5))
                           ]),
-                      child: Row(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Icon(
-                            Icons.search,
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 1.5,
-                            child: TextField(
-                              autofillHints: const [AutofillHints.givenName],
-                              onEditingComplete: showSearchresults,
-                              controller: _searchTextController,
-                              decoration: const InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: "Searching by username"),
+                          const Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Text(
+                              "Filters",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                        margin: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey.withOpacity(0.1),
-                                  offset: const Offset(0, 0.5))
-                            ]),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(20.0),
-                              child: Text(
-                                "Filters",
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width / 1.3,
-                                  margin: const EdgeInsets.only(
-                                      left: 20, bottom: 10),
-                                  child: ExpansionPanelList(
-                                    dividerColor: Colors.grey,
-                                    expansionCallback: (index, expanded) {
-                                      setState(() {
-                                        _expanded[index] = !expanded;
-                                      });
-                                    },
-                                    children: [
-                                      ExpansionPanel(
-                                          headerBuilder: (BuildContext context,
-                                              bool isActive) {
-                                            return const ListTile(
-                                              leading: Icon(
-                                                Icons.list,
-                                                color: Colors.red,
-                                              ),
-                                              title: Text("Favourite Sports "),
-                                            );
-                                          },
-                                          body: Column(
-                                            children: [
-                                              Container(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    1.3,
-                                                height: 50,
-                                                margin: const EdgeInsets.only(
-                                                    left: 10, bottom: 20),
-                                                child: ListView.builder(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  shrinkWrap: true,
-                                                  itemCount: interset.length,
-                                                  itemBuilder:
-                                                      (context, index) =>
-                                                          InkWell(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        changeIndexCheckAll(
-                                                            index);
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 10),
-                                                      margin: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 5),
-                                                      decoration: BoxDecoration(
-                                                          color: interset[index]
-                                                                      .isSelect ==
-                                                                  false
-                                                              ? Colors.white
-                                                              : Colors.green,
-                                                          borderRadius: const BorderRadius.all(Radius.circular(25)),
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                                color: Colors
-                                                                    .grey
-                                                                    .withOpacity(
-                                                                        0.1),
-                                                                offset:
-                                                                    const Offset(
-                                                                        1, 4))
-                                                          ]),
-                                                      child: interset[index]
-                                                                  .isSelect ==
-                                                              false
-                                                          ? Row(
-                                                              children: [
-                                                                Text(interset[
+                          Row(
+                            children: [
+                              Container(
+                                width:
+                                    MediaQuery.of(context).size.width / 1.3,
+                                margin: const EdgeInsets.only(
+                                    left: 20, bottom: 10),
+                                child: ExpansionPanelList(
+                                  dividerColor: Colors.grey,
+                                  expansionCallback: (index, expanded) {
+                                    setState(() {
+                                      _expanded[index] = !expanded;
+                                    });
+                                  },
+                                  children: [
+                                    ExpansionPanel(
+                                        headerBuilder: (BuildContext context,
+                                            bool isActive) {
+                                          return const ListTile(
+                                            leading: Icon(
+                                              Icons.list,
+                                              color: Colors.red,
+                                            ),
+                                            title: Text("Favourite Sports "),
+                                          );
+                                        },
+                                        body: Column(
+                                          children: [
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.3,
+                                              height: 50,
+                                              margin: const EdgeInsets.only(
+                                                  left: 10, bottom: 20),
+                                              child: ListView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                shrinkWrap: true,
+                                                itemCount: interset.length,
+                                                itemBuilder:
+                                                    (context, index) =>
+                                                        InkWell(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      changeIndexCheckAll(
+                                                          index);
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10),
+                                                    margin: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 5),
+                                                    decoration: BoxDecoration(
+                                                        color: interset[index]
+                                                                    .isSelect ==
+                                                                false
+                                                            ? Theme.of(context).primaryColor
+                                                            : Colors.green,
+                                                        borderRadius: const BorderRadius.all(Radius.circular(25)),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color: Colors
+                                                                  .grey
+                                                                  .withOpacity(
+                                                                      0.1),
+                                                              offset:
+                                                                  const Offset(
+                                                                      1, 4))
+                                                        ]),
+                                                    child: interset[index]
+                                                                .isSelect ==
+                                                            false
+                                                        ? Row(
+                                                            children: [
+                                                              Text(interset[
+                                                                      index]
+                                                                  .icon),
+                                                              const SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(interset[
+                                                                      index]
+                                                                  .title),
+                                                            ],
+                                                          )
+                                                        : Row(
+                                                            children: [
+                                                              const Icon(
+                                                                Icons
+                                                                    .check_circle,
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                interset[
                                                                         index]
-                                                                    .icon),
-                                                                const SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Text(interset[
-                                                                        index]
-                                                                    .title),
-                                                              ],
-                                                            )
-                                                          : Row(
-                                                              children: [
-                                                                const Icon(
-                                                                  Icons
-                                                                      .check_circle,
-                                                                  color: Colors
-                                                                      .white,
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Text(
-                                                                  interset[
-                                                                          index]
-                                                                      .title,
-                                                                  style: const TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                    ),
+                                                                    .title,
+                                                                style: const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            ],
+                                                          ),
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                          isExpanded: _expanded[0]),
-                                      ExpansionPanel(
-                                          headerBuilder: (BuildContext context,
-                                              bool isActive) {
-                                            return const ListTile(
-                                              leading: Icon(
-                                                Icons.location_on,
-                                                color: Colors.green,
-                                              ),
-                                              title: Text("Location"),
-                                            );
-                                          },
-                                          body: TextField(
-                                            controller:
-                                                _searchLocationController,
-                                            decoration: const InputDecoration(
-                                                border: OutlineInputBorder(),
-                                                hintText:
-                                                    "Searching Location..."),
-                                          ),
-                                          isExpanded: _expanded[1])
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        )),
-                    FutureBuilder<UserSearchModel>(
-                        future: _model,
-                        builder: (context, data) {
-                          if (data.hasData) {
-                            return ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: data.data!.users.data.length,
-                                itemBuilder: (context, index) => Container(
-                                    margin: const EdgeInsets.all(20),
-                                    padding: const EdgeInsets.all(20),
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.1),
-                                              offset: const Offset(0, 0.5))
-                                        ]),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ShowUserProfileUI(
-                                                          userName: data
-                                                              .data!
-                                                              .users
-                                                              .data[index]
-                                                              .username,
-                                                        )));
-                                          },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                shape: BoxShape.circle,
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      spreadRadius: 20,
-                                                      blurRadius: 11,
-                                                      color: Colors.grey
-                                                          .withOpacity(0.2),
-                                                      offset:
-                                                          const Offset(1, 1))
-                                                ]),
-                                            child: CircleAvatar(
-                                              radius: 50,
-                                              backgroundImage: NetworkImage(data
-                                                  .data!
-                                                  .users
-                                                  .data[index]
-                                                  .image),
                                             ),
-                                          ),
+                                          ],
                                         ),
-                                        const SizedBox(
-                                          height: 10,
+                                        isExpanded: _expanded[0]),
+                                    ExpansionPanel(
+                                        headerBuilder: (BuildContext context,
+                                            bool isActive) {
+                                          return const ListTile(
+                                            leading: Icon(
+                                              Icons.location_on,
+                                              color: Colors.green,
+                                            ),
+                                            title: Text("Location"),
+                                          );
+                                        },
+                                        body: TextField(
+                                          controller:
+                                              _searchLocationController,
+                                          decoration: const InputDecoration(
+                                              border: OutlineInputBorder(),
+                                              hintText:
+                                                  "Searching Location..."),
                                         ),
-                                        Text(
-                                          data.data!.users.data[index].username,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline6,
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        FutureBuilder<ShowUserProfile>(
-                                            future: ShowProfileUserApiManager()
-                                                .getUserDetailsByName(
-                                                    data.data!.users.data[index]
-                                                        .username,
-                                                    Provider.of<DataManager>(
-                                                            context,
-                                                            listen: false)
-                                                        .getUserToken,
-                                                    context),
-                                            builder: (context, data2) {
-                                              if (data2.hasData) {
-                                                return Center(
-                                                  child: SizedBox(
-                                                    height: 20,
-                                                    width: 120,
-                                                    child: data2.data!.reviews
-                                                            .received.isNotEmpty
-                                                        ? ListView.builder(
-                                                            scrollDirection:
-                                                                Axis.horizontal,
-                                                            physics:
-                                                                const NeverScrollableScrollPhysics(),
-                                                            itemCount: data2
-                                                                .data!
-                                                                .reviews
-                                                                .received[0]
-                                                                .stars,
-                                                            itemBuilder: (context,
-                                                                    index2) =>
-                                                                Icon(
-                                                              Icons.star,
-                                                              color: Colors
-                                                                  .yellow
-                                                                  .shade700,
-                                                            ),
-                                                          )
-                                                        : Container(),
-                                                  ),
-                                                );
-                                              } else {
-                                                return Container();
-                                              }
-                                            }),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          "Member Since 13-oct-2020",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .caption,
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        if (data.data!.users.data[index].sports
-                                            .isNotEmpty)
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text(fav),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              SizedBox(
-                                                width: data
+                                        isExpanded: _expanded[1])
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                        ],
+                      )),
+                  FutureBuilder<UserSearchModel>(
+                      future: _model,
+                      builder: (context, data) {
+                        if (data.hasData) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: data.data!.users.data.length,
+                              itemBuilder: (context, index) => Container(
+                                  margin: const EdgeInsets.all(20),
+                                  padding: const EdgeInsets.all(20),
+                                  width: MediaQuery.of(context).size.width,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Colors.grey.withOpacity(0.1),
+                                            offset: const Offset(0, 0.5))
+                                      ]),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ShowUserProfileUI(
+                                                        userName: data
                                                             .data!
                                                             .users
                                                             .data[index]
-                                                            .sports
-                                                            .length >
-                                                        5
-                                                    ? MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                        1.4
-                                                    : data
-                                                                .data!
-                                                                .users
-                                                                .data[index]
-                                                                .sports
-                                                                .length <
-                                                            3
-                                                        ? 100
-                                                        : 150,
-                                                child: Text(
-                                                  gameNames(data.data!.users
-                                                      .data[index].sports),
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .caption,
-                                                ),
-                                              ),
-                                            ],
+                                                            .username,
+                                                      )));
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    spreadRadius: 20,
+                                                    blurRadius: 11,
+                                                    color: Colors.grey
+                                                        .withOpacity(0.2),
+                                                    offset:
+                                                        const Offset(1, 1))
+                                              ]),
+                                          child: CircleAvatar(
+                                            radius: 50,
+                                            backgroundImage: NetworkImage(data
+                                                .data!
+                                                .users
+                                                .data[index]
+                                                .image),
                                           ),
-                                        const SizedBox(
-                                          height: 10,
                                         ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        data.data!.users.data[index].username,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      FutureBuilder<ShowUserProfile>(
+                                          future: ShowProfileUserApiManager()
+                                              .getUserDetailsByName(
+                                                  data.data!.users.data[index]
+                                                      .username,
+                                                  Provider.of<DataManager>(
+                                                          context,
+                                                          listen: false)
+                                                      .getUserToken,
+                                                  context),
+                                          builder: (context, data2) {
+                                            if (data2.hasData) {
+                                              return Center(
+                                                child: SizedBox(
+                                                  height: 20,
+                                                  width: 120,
+                                                  child: data2.data!.reviews
+                                                          .received.isNotEmpty
+                                                      ? ListView.builder(
+                                                          scrollDirection:
+                                                              Axis.horizontal,
+                                                          physics:
+                                                              const NeverScrollableScrollPhysics(),
+                                                          itemCount: data2
+                                                              .data!
+                                                              .reviews
+                                                              .received[0]
+                                                              .stars,
+                                                          itemBuilder: (context,
+                                                                  index2) =>
+                                                              Icon(
+                                                            Icons.star,
+                                                            color: Colors
+                                                                .yellow
+                                                                .shade700,
+                                                          ),
+                                                        )
+                                                      : Container(),
+                                                ),
+                                              );
+                                            } else {
+                                              return Container();
+                                            }
+                                          }),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        "Member Since 13-oct-2020",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .caption,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      if (data.data!.users.data[index].sports
+                                          .isNotEmpty)
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
                                           children: [
-                                            Expanded(
-                                              child: Center(
-                                                child: Text(
-                                                  '${data.data!.users.data[index].stats.friends}',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline6,
-                                                ),
-                                              ),
+                                            Text(fav),
+                                            const SizedBox(
+                                              width: 5,
                                             ),
-                                            Expanded(
-                                              child: Center(
-                                                child: Text(
-                                                  '${data.data!.users.data[index].stats.hosting}',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline6,
-                                                ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Center(
-                                                child: Text(
-                                                  '${data.data!.users.data[index].stats.going}',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headline6,
-                                                ),
+                                            SizedBox(
+                                              width: data
+                                                          .data!
+                                                          .users
+                                                          .data[index]
+                                                          .sports
+                                                          .length >
+                                                      5
+                                                  ? MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.4
+                                                  : data
+                                                              .data!
+                                                              .users
+                                                              .data[index]
+                                                              .sports
+                                                              .length <
+                                                          3
+                                                      ? 100
+                                                      : 150,
+                                              child: Text(
+                                                gameNames(data.data!.users
+                                                    .data[index].sports),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .caption,
                                               ),
                                             ),
                                           ],
                                         ),
-                                        Row(
-                                          children: [
-                                            Expanded(
-                                              child: Center(
-                                                child: Text(
-                                                  "Friends",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .caption,
-                                                ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                '${data.data!.users.data[index].stats.friends}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6,
                                               ),
                                             ),
-                                            Expanded(
-                                              child: Center(
-                                                child: Text(
-                                                  "Events",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .caption,
-                                                ),
+                                          ),
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                '${data.data!.users.data[index].stats.hosting}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6,
                                               ),
                                             ),
-                                            Expanded(
-                                              child: Center(
-                                                child: Text(
-                                                  "Joined Events",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .caption,
-                                                ),
+                                          ),
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                '${data.data!.users.data[index].stats.going}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6,
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ],
-                                    )));
-                          } else {
-                            return Container(
-                                margin: const EdgeInsets.all(20),
-                                padding: const EdgeInsets.all(20),
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.grey.withOpacity(0.1),
-                                          offset: const Offset(0, 0.5))
-                                    ]),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text("We didn't find any results",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline6),
-                                    Text(
-                                        "Make sure everything is spelled correctly",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .caption),
-                                    Text("or try different keywords.",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .caption),
-                                  ],
-                                ));
-                          }
-                        }),
-                  ],
-                ),
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                "Friends",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .caption,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                "Events",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .caption,
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                "Joined Events",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .caption,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )));
+                        } else {
+                          return Container(
+                              margin: const EdgeInsets.all(20),
+                              padding: const EdgeInsets.all(20),
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        offset: const Offset(0, 0.5))
+                                  ]),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("We didn't find any results",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline6),
+                                  Text(
+                                      "Make sure everything is spelled correctly",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption),
+                                  Text("or try different keywords.",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption),
+                                ],
+                              ));
+                        }
+                      }),
+                ],
               ),
             )),
       ),

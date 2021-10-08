@@ -226,7 +226,7 @@ class _SearchEventState extends State<SearchEvent> {
                                                           color: interset[index]
                                                                       .isSelect ==
                                                                   false
-                                                              ? Colors.white
+                                                              ? Theme.of(context).primaryColor
                                                               : Colors.green,
                                                           borderRadius: const BorderRadius.all(Radius.circular(25)),
                                                           boxShadow: [
@@ -482,7 +482,6 @@ class _SearchEventState extends State<SearchEvent> {
                               padding: const EdgeInsets.all(20),
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
                                     BoxShadow(
