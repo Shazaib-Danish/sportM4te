@@ -175,7 +175,7 @@ class _SearchEventByUserState extends State<SearchEventByUser> {
                                                 Icons.list,
                                                 color: Colors.red,
                                               ),
-                                              title: Text("Favourite Sports"),
+                                              title: Text("Favourite Sports "),
                                             );
                                           },
                                           body: Column(
